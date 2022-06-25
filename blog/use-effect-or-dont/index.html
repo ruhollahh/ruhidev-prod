@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <link rel="icon" href="/favicon.svg">
+    <meta name="description" content="بیشتر آموزش‌ها و مقاله‌هایی که از useEffect می‌بینید اشتباهن، اطلاعات غلط و anti-pattern که فقط باعث پیچیدگی و ایجاد باگ‌های بیشتر میشن. تو این پست قصد داریم یه مقدار راجع به استفاده از این هوک پر دردسر صحبت کنیم.">
+    <meta name="twitter:image" content="https://res.cloudinary.com/ruhollahh/image/upload/v1656178914/ruhidev/dominoes_zaenk3.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+    <!-- <meta name="twitter:creator" content="@twitterUsername" /> -->
+    <meta property="og:title" content="دوره‌های آنلاین و آموزش نادرست useEffect">
+    <meta property="og:description" content="بیشتر آموزش‌ها و مقاله‌هایی که از useEffect می‌بینید اشتباهن، اطلاعات غلط و anti-pattern که فقط باعث پیچیدگی و ایجاد باگ‌های بیشتر میشن. تو این پست قصد داریم یه مقدار راجع به استفاده از این هوک پر دردسر صحبت کنیم.">
+    <meta property="og:image" content="https://res.cloudinary.com/ruhollahh/image/upload/v1656178914/ruhidev/dominoes_zaenk3.jpg">
+    <meta name="google-site-verification" content="zHY3_g7-iPbCh2aQVzINBG2yX2ZK5g2PUuW4vrUutnw">
+    <meta name="theme-color" content="#000000">
+    <title>دوره‌های آنلاین و آموزش نادرست useEffect</title>
+
+    <script defer data-domain="ruhidev.com" src="https://plausible.io/js/plausible.js"></script>
+  <link rel="stylesheet" href="/assets/asset.8b38c9c8.css" /><style>astro-root, astro-fragment { display: contents; }</style><script type="module" data-astro-component-hydration>import setup from '/entry.316778ed.js';
+import 'data:text/javascript;charset=utf-8,//[no before-hydration script]';
+setup("1dJfFU", {name:"CodePlayground",value: true}, async () => {
+  const [{ default: Component }, { default: hydrate }] = await Promise.all([import("/entry.0afaf00e.js"), import("/entry.1e6ad0e1.js")]);
+  return (el, children) => hydrate(el)(Component, {}, children, {"client":"load"});
+
+});
+</script>
+<script type="module" data-astro-component-hydration>import setup from '/entry.316778ed.js';
+import 'data:text/javascript;charset=utf-8,//[no before-hydration script]';
+setup("1gg5JO", {name:"OtherCodePlayground",value: true}, async () => {
+  const [{ default: Component }, { default: hydrate }] = await Promise.all([import("/entry.01fa3427.js"), import("/entry.1e6ad0e1.js")]);
+  return (el, children) => hydrate(el)(Component, {}, children, {"client":"load"});
+
+});
+</script>
+<script type="module" data-astro-component-hydration>import setup from '/entry.316778ed.js';
+import 'data:text/javascript;charset=utf-8,//[no before-hydration script]';
+setup("ZKVaO5", {name:"ThirdCodePlayground",value: true}, async () => {
+  const [{ default: Component }, { default: hydrate }] = await Promise.all([import("/entry.e3758280.js"), import("/entry.1e6ad0e1.js")]);
+  return (el, children) => hydrate(el)(Component, {}, children, {"client":"load"});
+
+});
+</script>
+</head>
+  <body>
+    <div class="max-w-[64rem] mx-auto px-5">
+      <a href="/blog"><div class="text-xl pt-8">پست‌های بلاگ</div></a>
+      <main>
+        <article class="prose prose-lg lg:prose-xl pb-10 max-w-none">
+          <div>
+  <h2 class="m-0 p-0 font-bold" style="margin-block-end: 0.5rem;; margin-block-start: 1rem;">
+    دوره‌های آنلاین و آموزش نادرست useEffect
+  </h2>
+  <time datetime="Sat Jun 25 2022 00:00:00 GMT+0430 (Iran Daylight Time)">1 روز پیش</time>
+</div>
+          <p>روح الله چندتا دوره آنلاین دیده و حالا یه جا مشغول به کار شده!</p>
+<p>او برای پیاده سازی هر کدوم یک از تسک‌های زیر از useEffect استفاده کرده.</p>
+<p>سوال، روح الله در پیاده سازی کدوم تسک به درستی از useEffect استفاده نکرده؟</p>
+<p>نکته: به جزئیات کاری نداریم فقط نحوه استفاده از useEffect رو در نظر بگیرید.</p>
+<p>تسک اول: زمانی که کاربر فرم رو پر کرد و روی دکمه «ثبت نام» کلیک کرد قصد داریم اطلاعات کاربر رو با استفاده از یک تابع async به نام signup به سرور ارسال کنیم.</p>
+<p>پیاده سازی:</p>
+<pre class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #FF7B72">import</span><span style="color: #C9D1D9"> {useState, useEffect} </span><span style="color: #FF7B72">from</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">&#39;react&#39;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">export</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">SignupPage</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> () </span><span style="color: #FF7B72">=&gt;</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> [</span><span style="color: #79C0FF">isSubmitted</span><span style="color: #C9D1D9">, </span><span style="color: #79C0FF">setIsSubmitted</span><span style="color: #C9D1D9">] </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">useState</span><span style="color: #C9D1D9">(</span><span style="color: #79C0FF">false</span><span style="color: #C9D1D9">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #D2A8FF">useEffect</span><span style="color: #C9D1D9">(() </span><span style="color: #FF7B72">=&gt;</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> (isSubmitted) {</span></span>
+<span class="line"><span style="color: #C9D1D9">            </span><span style="color: #D2A8FF">signup</span><span style="color: #C9D1D9">(اطلاعات فرم).</span><span style="color: #D2A8FF">then</span><span style="color: #C9D1D9">(() </span><span style="color: #FF7B72">=&gt;</span><span style="color: #C9D1D9"> console.</span><span style="color: #D2A8FF">log</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">&#39;success&#39;</span><span style="color: #C9D1D9">))</span></span>
+<span class="line"><span style="color: #C9D1D9">        }</span></span>
+<span class="line"><span style="color: #C9D1D9">    }, [isSubmitted])</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">return</span><span style="color: #C9D1D9"> (</span></span>
+<span class="line"><span style="color: #C9D1D9">        &lt;</span><span style="color: #7EE787">form</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">onSubmit</span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9">{() </span><span style="color: #FF7B72">=&gt;</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">setIsSubmitted</span><span style="color: #C9D1D9">(</span><span style="color: #79C0FF">true</span><span style="color: #C9D1D9">)}&gt;</span></span>
+<span class="line"><span style="color: #C9D1D9">            // ...</span></span>
+<span class="line"><span style="color: #C9D1D9">            &lt;</span><span style="color: #7EE787">button</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">type</span><span style="color: #FF7B72">=</span><span style="color: #A5D6FF">&quot;submit&quot;</span><span style="color: #C9D1D9">&gt;ثبت نام&lt;/</span><span style="color: #7EE787">button</span><span style="color: #C9D1D9">&gt;</span></span>
+<span class="line"><span style="color: #C9D1D9">        &lt;/</span><span style="color: #7EE787">form</span><span style="color: #C9D1D9">&gt;</span></span>
+<span class="line"><span style="color: #C9D1D9">    )</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span></code></pre>
+<p>تسک دوم: یک سری آیتم و یک تابع برای فیلتر کردن همون آیتم‌هارو به صورت props دریافت می‌کنیم و می‌خوایم آیتم‌های فیلتر شده رو نشون بدیم.</p>
+<p>هر زمان که این پراپ‌ها تغییر کردند نیاز داریم دوباره عملیات فیلتر کردن رو انجام بدیم و نتیجه جدید رو نشون بدیم.</p>
+<p>پیاده سازی:</p>
+<pre class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #FF7B72">import</span><span style="color: #C9D1D9"> {useState, useEffect} </span><span style="color: #FF7B72">from</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">&#39;react&#39;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">export</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">FilteredItems</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> ({</span><span style="color: #FFA657">items</span><span style="color: #C9D1D9">, </span><span style="color: #FFA657">filter</span><span style="color: #C9D1D9">}) </span><span style="color: #FF7B72">=&gt;</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> [</span><span style="color: #79C0FF">filteredItems</span><span style="color: #C9D1D9">, </span><span style="color: #79C0FF">setFilteredItems</span><span style="color: #C9D1D9">] </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">useState</span><span style="color: #C9D1D9">([])</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #D2A8FF">useEffect</span><span style="color: #C9D1D9">(() </span><span style="color: #FF7B72">=&gt;</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #D2A8FF">setFilteredItems</span><span style="color: #C9D1D9">(</span><span style="color: #D2A8FF">filter</span><span style="color: #C9D1D9">(items))</span></span>
+<span class="line"><span style="color: #C9D1D9">    }, [items, filter])</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">return</span><span style="color: #C9D1D9"> (</span></span>
+<span class="line"><span style="color: #C9D1D9">        &lt;</span><span style="color: #7EE787">ul</span><span style="color: #C9D1D9">&gt;</span></span>
+<span class="line"><span style="color: #C9D1D9">            {filteredItems.</span><span style="color: #D2A8FF">map</span><span style="color: #C9D1D9">(</span><span style="color: #FFA657">item</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=&gt;</span><span style="color: #C9D1D9"> &lt;</span><span style="color: #7EE787">li</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">key</span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9">{item.id}&gt;{item.name}&lt;/</span><span style="color: #7EE787">li</span><span style="color: #C9D1D9">&gt;)}</span></span>
+<span class="line"><span style="color: #C9D1D9">        &lt;</span><span style="color: #7EE787">ul</span><span style="color: #C9D1D9">/&gt;</span></span>
+<span class="line"><span style="color: #C9D1D9">    )</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span></code></pre>
+<p>یه مقدار پیچیدش کنیم 🙂</p>
+<p>تسک سوم: قصد داریم وقتی المان div در صفحه ظاهر شد ارتفاع اون رو داخل استیت height قرار بدیم. محتویات این المان از سرور دریافت میشه.</p>
+<p>پیاده سازی:</p>
+<pre class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #FF7B72">import</span><span style="color: #C9D1D9"> { useState, useEffect, useRef } </span><span style="color: #FF7B72">from</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">&quot;react&quot;</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">import</span><span style="color: #C9D1D9"> { useContent } </span><span style="color: #FF7B72">from</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">&quot;./hooks/use-content&quot;</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">export</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">Whatever</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> () </span><span style="color: #FF7B72">=&gt;</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">  </span><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> { </span><span style="color: #79C0FF">content</span><span style="color: #C9D1D9">, </span><span style="color: #79C0FF">isLoading</span><span style="color: #C9D1D9"> } </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">useContent</span><span style="color: #C9D1D9">();</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">  </span><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">divRef</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">useRef</span><span style="color: #C9D1D9">(</span><span style="color: #79C0FF">null</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">  </span><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> [</span><span style="color: #79C0FF">height</span><span style="color: #C9D1D9">, </span><span style="color: #79C0FF">setHeight</span><span style="color: #C9D1D9">] </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">useState</span><span style="color: #C9D1D9">(</span><span style="color: #79C0FF">0</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">  </span><span style="color: #D2A8FF">useEffect</span><span style="color: #C9D1D9">(() </span><span style="color: #FF7B72">=&gt;</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> (divRef.current) {</span></span>
+<span class="line"><span style="color: #C9D1D9">      </span><span style="color: #D2A8FF">setHeight</span><span style="color: #C9D1D9">(divRef.current.</span><span style="color: #D2A8FF">getBoundingClientRect</span><span style="color: #C9D1D9">().height);</span></span>
+<span class="line"><span style="color: #C9D1D9">    }</span></span>
+<span class="line"><span style="color: #C9D1D9">  }, [divRef]);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">  </span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> (isLoading) {</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">return</span><span style="color: #C9D1D9"> &lt;</span><span style="color: #7EE787">div</span><span style="color: #C9D1D9">&gt;Loading...&lt;/</span><span style="color: #7EE787">div</span><span style="color: #C9D1D9">&gt;;</span></span>
+<span class="line"><span style="color: #C9D1D9">  }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">  </span><span style="color: #FF7B72">return</span><span style="color: #C9D1D9"> (</span></span>
+<span class="line"><span style="color: #C9D1D9">    &lt;&gt;</span></span>
+<span class="line"><span style="color: #C9D1D9">      &lt;</span><span style="color: #7EE787">div</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">ref</span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9">{divRef}&gt;{content}&lt;/</span><span style="color: #7EE787">div</span><span style="color: #C9D1D9">&gt;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">      &lt;</span><span style="color: #7EE787">span</span><span style="color: #C9D1D9">&gt;Height is: {height}&lt;/</span><span style="color: #7EE787">span</span><span style="color: #C9D1D9">&gt;</span></span>
+<span class="line"><span style="color: #C9D1D9">    &lt;/&gt;</span></span>
+<span class="line"><span style="color: #C9D1D9">  );</span></span>
+<span class="line"><span style="color: #C9D1D9">};</span></span></code></pre>
+<p>خب فکر می‌کنید کدوم یک از پیاده سازی‌ها اشتباه انجام شده؟</p>
+<p>طبق داک ری‌اکت هر سه تا اشتباهه.</p>
+<p>دو تای اول کار می‌کنند اما کارآمد نیستند سومی هم اصلا کار نمی‌کنه … روح الله اخراج شد 😂</p>
+<p>داخل ادیتور زیر، تسک سوم قرار گرفته و می‌بینیم که ارتفاع رو صفر نوشته، که اشتباهه.</p>
+<p>کد داخل ادیتور رو می‌تونید تغییر بدید و سعی کنید مشکل رو حل کنید:</p>
+<astro-root ssr uid="1dJfFU"><div dir="ltr" class="-ml-5 -mr-5"><div class="sp-wrapper dark sp-c-fVPbOs"><div class="sp-layout !rounded-lg sp-c-dvoSuG"><div class="sp-stack md:min-h-[450px] sp-c-jKpMgH"><div class="sp-tabs !bg-[#343a46] sp-c-dyHYiL" translate="no"><div aria-label="Select active file" class="sp-tabs-scrollable-container !gap-4 !pl-4 !pr-4 sp-c-gGbYbQ" role="tablist"><button aria-selected="true" class="sp-tab-button !text-lg !text-[#FDF1E7] sp-c-jCyRbv sp-c-cFDjHt" data-active="true" role="tab" title="/App.js" type="button">App.js<!-- --></button><button aria-selected="false" class="sp-tab-button !text-lg !text-[#FDF1E7] sp-c-jCyRbv sp-c-cFDjHt" data-active="false" role="tab" title="/hooks/useContent.js" type="button">useContent.js<!-- --></button></div></div><div class="sp-code-editor !bg-[#16181d] text-sm sp-c-bNbSGz"><div aria-describedby="enter-instructions-:Rp:" aria-label="Code Editor for App.js" class="sp-cm sp-pristine sp-javascript sp-c-jcgexo sp-c-jkvvao" role="group" tabindex="0" translate="no"><pre class="sp-pre-placeholder sp-c-fWymNx" style="margin-left:var(--sp-space-5)"><span class="sp-syntax-keyword">import</span> <!-- --><span class="sp-syntax-punctuation">{</span> <!-- --><span class="sp-syntax-plain">useRef</span><span class="sp-syntax-punctuation">,</span> <!-- --><span class="sp-syntax-plain">useEffect</span><span class="sp-syntax-punctuation">,</span> <!-- --><span class="sp-syntax-plain">useState</span> <!-- --><span class="sp-syntax-punctuation">}</span> <!-- --><span class="sp-syntax-keyword">from</span> <!-- --><span class="sp-syntax-string">&quot;react&quot;</span><span class="sp-syntax-punctuation">;</span>
+<!-- --><span class="sp-syntax-keyword">import</span> <!-- --><span class="sp-syntax-punctuation">{</span> <!-- --><span class="sp-syntax-plain">useContent</span> <!-- --><span class="sp-syntax-punctuation">}</span> <!-- --><span class="sp-syntax-keyword">from</span> <!-- --><span class="sp-syntax-string">&#x27;./hooks/useContent&#x27;</span><span class="sp-syntax-punctuation">;</span>
+
+<!-- --><span class="sp-syntax-keyword">export</span> <!-- --><span class="sp-syntax-keyword">default</span> <!-- --><span class="sp-syntax-keyword">function</span> <!-- --><span class="sp-syntax-definition">App</span><span class="sp-syntax-punctuation">(</span><span class="sp-syntax-punctuation">)</span> <!-- --><span class="sp-syntax-punctuation">{</span>
+  <!-- --><span class="sp-syntax-keyword">const</span> <!-- --><span class="sp-syntax-punctuation">{</span><span class="sp-syntax-property">content</span><span class="sp-syntax-punctuation">,</span> <!-- --><span class="sp-syntax-property">isLoading</span><span class="sp-syntax-punctuation">}</span> = <!-- --><span class="sp-syntax-definition">useContent</span><span class="sp-syntax-punctuation">(</span><span class="sp-syntax-punctuation">)</span>
+  <!-- --><span class="sp-syntax-keyword">const</span> <!-- --><span class="sp-syntax-punctuation">[</span><span class="sp-syntax-plain">height</span><span class="sp-syntax-punctuation">,</span> <!-- --><span class="sp-syntax-plain">setHeight</span><span class="sp-syntax-punctuation">]</span> = <!-- --><span class="sp-syntax-definition">useState</span><span class="sp-syntax-punctuation">(</span><span class="sp-syntax-static">0</span><span class="sp-syntax-punctuation">)</span>
+  
+  <!-- --><span class="sp-syntax-keyword">const</span> <!-- --><span class="sp-syntax-plain">divRef</span> = <!-- --><span class="sp-syntax-definition">useRef</span><span class="sp-syntax-punctuation">(</span><span class="sp-syntax-keyword">null</span><span class="sp-syntax-punctuation">)</span>
+  <!-- --><span class="sp-syntax-definition">useEffect</span><span class="sp-syntax-punctuation">(</span><span class="sp-syntax-punctuation">(</span><span class="sp-syntax-punctuation">)</span> <!-- --><span class="sp-syntax-punctuation">=&gt;</span> <!-- --><span class="sp-syntax-punctuation">{</span>
+	  <!-- --><span class="sp-syntax-keyword">if</span> <!-- --><span class="sp-syntax-punctuation">(</span><span class="sp-syntax-plain">divRef</span>.<!-- --><span class="sp-syntax-property">current</span><span class="sp-syntax-punctuation">)</span> <!-- --><span class="sp-syntax-punctuation">{</span>
+		  <!-- --><span class="sp-syntax-definition">setHeight</span><span class="sp-syntax-punctuation">(</span><span class="sp-syntax-plain">divRef</span>.<!-- --><span class="sp-syntax-property">current</span>.<!-- --><span class="sp-syntax-property">getBoundingClientRect</span><span class="sp-syntax-punctuation">(</span><span class="sp-syntax-punctuation">)</span>.<!-- --><span class="sp-syntax-property">height</span><span class="sp-syntax-punctuation">)</span>
+	  <!-- --><span class="sp-syntax-punctuation">}</span>
+  <!-- --><span class="sp-syntax-punctuation">}</span><span class="sp-syntax-punctuation">,</span> <!-- --><span class="sp-syntax-punctuation">[</span><span class="sp-syntax-plain">divRef</span><span class="sp-syntax-punctuation">]</span><span class="sp-syntax-punctuation">)</span>
+
+  <!-- --><span class="sp-syntax-keyword">if</span> <!-- --><span class="sp-syntax-punctuation">(</span><span class="sp-syntax-plain">isLoading</span><span class="sp-syntax-punctuation">)</span> <!-- --><span class="sp-syntax-punctuation">{</span>
+    <!-- --><span class="sp-syntax-keyword">return</span> <!-- --><span class="sp-syntax-punctuation">&lt;</span><span class="sp-syntax-tag">div</span><span class="sp-syntax-punctuation">&gt;</span>Loading...<!-- --><span class="sp-syntax-punctuation">&lt;/</span><span class="sp-syntax-tag">div</span><span class="sp-syntax-punctuation">&gt;</span>
+  <!-- --><span class="sp-syntax-punctuation">}</span>
+  
+  <!-- --><span class="sp-syntax-keyword">return</span> <!-- --><span class="sp-syntax-punctuation">(</span>
+    <!-- --><span class="sp-syntax-punctuation">&lt;</span><span class="sp-syntax-punctuation">&gt;</span>
+      <!-- --><span class="sp-syntax-punctuation">&lt;</span><span class="sp-syntax-tag">div</span> <!-- --><span class="sp-syntax-property">ref</span>=<!-- --><span class="sp-syntax-punctuation">{</span><span class="sp-syntax-plain">divRef</span><span class="sp-syntax-punctuation">}</span><span class="sp-syntax-punctuation">&gt;</span>
+        <!-- --><span class="sp-syntax-punctuation">{</span><span class="sp-syntax-plain">content</span><span class="sp-syntax-punctuation">}</span>
+      <!-- --><span class="sp-syntax-punctuation">&lt;/</span><span class="sp-syntax-tag">div</span><span class="sp-syntax-punctuation">&gt;</span>
+      <!-- --><span class="sp-syntax-punctuation">&lt;</span><span class="sp-syntax-tag">span</span><span class="sp-syntax-punctuation">&gt;</span>Height is: <!-- --><span class="sp-syntax-punctuation">{</span><span class="sp-syntax-plain">height</span><span class="sp-syntax-punctuation">}</span><span class="sp-syntax-punctuation">&lt;/</span><span class="sp-syntax-tag">span</span><span class="sp-syntax-punctuation">&gt;</span>
+    <!-- --><span class="sp-syntax-punctuation">&lt;/</span><span class="sp-syntax-punctuation">&gt;</span>
+  <!-- --><span class="sp-syntax-punctuation">)</span>
+<!-- --><span class="sp-syntax-punctuation">}</span></pre><p id="enter-instructions-:Rp:" style="display:none">To enter the code editing mode, press Enter. To exit the edit mode, press Escape</p><p id="exit-instructions-:Rp:" style="display:none">You are editing the code. To exit the edit mode, press Escape</p></div></div></div><div class="sp-stack md:min-h-[450px] sp-c-jKpMgH"><div class="sp-preview-container sp-c-bIhyHd"><iframe class="sp-preview-iframe sp-c-fgviib" title="Sandpack Preview"></iframe><div class="sp-preview-actions sp-c-eKnQtg"></div></div></div></div></div></div></astro-root>
+<p>روح الله حاضره قسم بخوره که این متد قبلا کار می‌کرد و حتی چندین بار تا به حال این کار رو انجام داده و نمی‌دونه که چرا این دفعه درست کار نمی‌کنه.</p>
+<h2 id="اثر-جانبی-sideeffect-اصلا-یعنی-چی">اثر جانبی (side effect) اصلا یعنی چی؟</h2>
+<p>خب بیاید از اول شروع کنیم اثر جانبی یا همون side effect زمانی اتفاق می‌افته که یک رویدادی رخ داده باشه این رویداد می‌تونه کلیک کاربر روی یک دکمه، تایپ کردن داخل یک اینپوت و… باشه.</p>
+<p>تسک دوم رو در نظر بگیرید، بعد از کلیک روی دکمه «ثبت نام» نیاز داریم که اطلاعات کاربر رو بفرستیم به سرور درسته؟</p>
+<p>خب رویداد ما اینجا کلیک روی دکمه «ثبت نام» و اثر جانبی ما ریکوئست زدن به سرور بود.</p>
+<p>useEffect اینجا چیکارَه بیدَه؟ 🧐</p>
+<h2 id="رویداد-رندر">رویداد رندر</h2>
+<p>احتمالا می‌دونید که useEffect بعد از paint اجرا میشه، ببین گفتم بعد از paint، یعنی بعد از <strong>رندر خود مرورگر</strong> که تازه خودش بعد از رندر ری‌اکت اتفاق می‌افته! اینو بعدا میگم چرا مشکل ایجاد میکنه.</p>
+<p>خب حالا بگید ببینم رویدادمون اینجا چیه؟ رندر دیگه، یعنی ظاهر شدن کامپوننت بر روی صفحه.</p>
+<p>خب پس الان منطقیه که بگیم useEffect باید وقتی استفاده بشه که قراره یه اتفاقی در اثر رندر شدن کامپوننت بی‌افته.</p>
+<p>آقا ولی من شنیدم useEffect جای خوبی برای ریکوئست زدنه ها!</p>
+<p>آره ولی ریکوئستی که رویدادش رندر باشه نه چیز دیگه.</p>
+<p>تازه اونم به نظر شخصی خودم به دردسرش نمی‌ارزه، هندل کردن داستانای cache و race condition و… رو ترجیح میدم بسپرم به کتابخونه‌هایی مثل react query و swr که دقیقا برای همین کارا ساخته شدن.</p>
+<p>رویدادی که تو تسک دوم باهاش سر و کار داریم اصلا ربطی به رندر شدن نداره، کاربر روی یک دکمه کلیک کرده خب اثر جانبیش هم باید داخل هندلر همون رویداد اتفاق بی‌افته دیگه، به همین سادگی:</p>
+<pre class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #FF7B72">import</span><span style="color: #C9D1D9"> {useState, useEffect} </span><span style="color: #FF7B72">from</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">&#39;react&#39;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">export</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">SignupPage</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> () </span><span style="color: #FF7B72">=&gt;</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">return</span><span style="color: #C9D1D9"> (</span></span>
+<span class="line"><span style="color: #C9D1D9">        &lt;</span><span style="color: #7EE787">form</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">onSubmit</span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9">{() </span><span style="color: #FF7B72">=&gt;</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">signup</span><span style="color: #C9D1D9">(اطلاعات فرم).</span><span style="color: #D2A8FF">then</span><span style="color: #C9D1D9">(() </span><span style="color: #FF7B72">=&gt;</span><span style="color: #C9D1D9"> console.</span><span style="color: #D2A8FF">log</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">&#39;success&#39;</span><span style="color: #C9D1D9">))</span><span style="color: #FF7B72">&gt;</span></span>
+<span class="line"><span style="color: #C9D1D9">            </span><span style="color: #8B949E">// ...</span></span>
+<span class="line"><span style="color: #C9D1D9">            &lt;</span><span style="color: #7EE787">button</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">type</span><span style="color: #FF7B72">=</span><span style="color: #A5D6FF">&quot;submit&quot;</span><span style="color: #C9D1D9">&gt;ثبت نام&lt;/</span><span style="color: #7EE787">button</span><span style="color: #C9D1D9">&gt;</span></span>
+<span class="line"><span style="color: #C9D1D9">        </span><span style="color: #FF7B72">&lt;/</span><span style="color: #C9D1D9">form</span><span style="color: #FF7B72">&gt;</span></span>
+<span class="line"><span style="color: #C9D1D9">    )</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span></code></pre>
+<p>کارایی مثل اعتبارسنجی اینپوت هم دقیقا همین طوره، کاربر یه چیزی داخل اینپوت تایپ می‌کنه حالا فرض کنید قصد داشته باشیم وقتی اینپوت از حالت فوکوس در اومد (onBlur) اعتبارسنجی انجام بشه… همون داستان قبل.</p>
+<p>استفاده از useEffect تو این چور مواقع فقط باعث پیچیدگی الکی و حتی لطمه به performance میشه که تو بخش بعدی بیشتر در موردش صحبت می‌کنیم.</p>
+<h2 id="پراپ-تغییر-کرده-باید-یه-کاری-کنم">پراپ تغییر کرده باید یه کاری کنم</h2>
+<p>تو تسک دوم هر موقع پراپ تغییر کنه باید یه کاری انجام بدیم خب اینجا دیگه باید از useEffect استفاده کنیم نه؟ نه.</p>
+<p>ببینید اینجا ما اصلا نیازی به useEffect نداریم همین filter رو ما می‌تونیم خارج از useEffect انجام بدیم و اینجوری حتی از لحاظ performance به صرفه‌تر هم هست چرا؟</p>
+<p>چون همونطور که تو بخش قبل فهمیدیم، useEffect بعد از رندر اجرا میشه و این یعنی بر فرض که پراپ تغییر کنه اتفاقی که می‌افته اینه که کامپوننت ما یه بار رندر میشه (با استیت قبل) و بعد تازه می‌فهمه که باید استیت رو آپدیت کنه و حالا مجددا در نتیجه تغییر استیت دوباره رندر میشه.</p>
+<p>یعنی ۲ بار رندر میشه، یک بار در نتیجه تغییر پراپ و یک بار در نتیجه تغییر استیت.</p>
+<p>در واقع تو تسک دوم نه به استیت نیاز داریم و نه به useEffect، هر چیزی که لازم داریم رو می‌تونیم از پراپ‌هامون در بیاریم:</p>
+<pre class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #FF7B72">import</span><span style="color: #C9D1D9"> {useState, useEffect} </span><span style="color: #FF7B72">from</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">&#39;react&#39;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">export</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">FilteredItems</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> ({</span><span style="color: #FFA657">items</span><span style="color: #C9D1D9">, </span><span style="color: #FFA657">filter</span><span style="color: #C9D1D9">}) </span><span style="color: #FF7B72">=&gt;</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">filteredItems</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">filter</span><span style="color: #C9D1D9">(items)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">return</span><span style="color: #C9D1D9"> (</span></span>
+<span class="line"><span style="color: #C9D1D9">        &lt;</span><span style="color: #7EE787">ul</span><span style="color: #C9D1D9">&gt;</span></span>
+<span class="line"><span style="color: #C9D1D9">            {filteredItems.</span><span style="color: #D2A8FF">map</span><span style="color: #C9D1D9">(</span><span style="color: #FFA657">item</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=&gt;</span><span style="color: #C9D1D9"> &lt;</span><span style="color: #7EE787">li</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">key</span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9">{item.id}&gt;{item.name}&lt;/</span><span style="color: #7EE787">li</span><span style="color: #C9D1D9">&gt;)}</span></span>
+<span class="line"><span style="color: #C9D1D9">        &lt;</span><span style="color: #7EE787">ul</span><span style="color: #C9D1D9">/&gt;</span></span>
+<span class="line"><span style="color: #C9D1D9">    )</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span></code></pre>
+<p>حالا اگه اون کاری که می‌خوایم انجام بدیم خیلی سنگین باشه، می‌تونیم بذاریمش داخل useMemo که کش بشه:</p>
+<pre class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #FF7B72">import</span><span style="color: #C9D1D9"> {useState, useEffect, useMemo} </span><span style="color: #FF7B72">from</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">&#39;react&#39;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #FF7B72">export</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">FilteredItems</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> ({</span><span style="color: #FFA657">items</span><span style="color: #C9D1D9">, </span><span style="color: #FFA657">filter</span><span style="color: #C9D1D9">}) </span><span style="color: #FF7B72">=&gt;</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">filteredItems</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">useMemo</span><span style="color: #C9D1D9">(() </span><span style="color: #FF7B72">=&gt;</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">filter</span><span style="color: #C9D1D9">(items), [items, filter])</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">return</span><span style="color: #C9D1D9"> (</span></span>
+<span class="line"><span style="color: #C9D1D9">        &lt;</span><span style="color: #7EE787">ul</span><span style="color: #C9D1D9">&gt;</span></span>
+<span class="line"><span style="color: #C9D1D9">            {filteredItems.</span><span style="color: #D2A8FF">map</span><span style="color: #C9D1D9">(</span><span style="color: #FFA657">item</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=&gt;</span><span style="color: #C9D1D9"> &lt;</span><span style="color: #7EE787">li</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">key</span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9">{item.id}&gt;{item.name}&lt;/</span><span style="color: #7EE787">li</span><span style="color: #C9D1D9">&gt;)}</span></span>
+<span class="line"><span style="color: #C9D1D9">        &lt;</span><span style="color: #7EE787">ul</span><span style="color: #C9D1D9">/&gt;</span></span>
+<span class="line"><span style="color: #C9D1D9">    )</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span></code></pre>
+<h2 id="دامو-باید-یه-کاریش-کنم">دامو باید یه کاریش کنم</h2>
+<p>خب حالا می‌رسیم به شخمی‌ترین anti-pattern ری‌اکت: می‌خوام وقتی کامپوننت رندر شد یه حرکتی روی دام بزنم… باید از useEffect استفاده کنم.</p>
+<p>عادلانه بخوایم نگاه کنیم بیشتر مواقع هم کار می‌کنه و خداییش من تو هیچ دوره‌ای ندیدم غیر از این بگه، ولی همونطور که میبینید ایده خوبی نیست.</p>
+<p>ببینید دوستان داک خود ری‌اکت درسته یه مقدار مزخرفه ولی از هر دوره‌ای دقیق‌تر و بهتره، البته بگم داک جدید(در حالی که این پست رو می‌نویسم تو فاز بتا هست) به طرز خارق العاده‌ای بهبود پیدا کرده و منبع اصلی این پست هم همونه 😅</p>
+<p>خب همه اینارو گفتم که برسم به روشی که داک ری‌اکت برای هندل کردن dom manipulation یا dom measurement توصیه کرده.</p>
+<h3 id="استفاده-از-callback-ref">استفاده از callback ref</h3>
+<p>خب داستان اینه که ری‌اکت علاوه بر useRef یک روش دیگه به نام callback ref هم برای دسترسی به دام داره که یه مقدار کنترل بیشتری نسبت به useRef به میده.</p>
+<p>مثلا با استفاده از callback ref می‌تونیم بفهمیم دقیقا چه زمانی المان‌مون mount شده و چه زمانی unmount شده، که با خوندن <a href="https://reactjs.org/docs/refs-and-the-dom.html#callback-refs">داکیومنتیشن callback ref</a> می‌تونید بیشتر در موردش یاد بگیرید.</p>
+<p>و اما تسک سوم:</p>
+<astro-root ssr uid="1gg5JO"><div dir="ltr" class="-ml-5 -mr-5"><div class="sp-wrapper dark sp-c-fVPbOs"><div class="sp-layout !rounded-lg sp-c-dvoSuG"><div class="sp-stack md:min-h-[450px] sp-c-jKpMgH"><div class="sp-tabs !bg-[#343a46] sp-c-dyHYiL" translate="no"><div aria-label="Select active file" class="sp-tabs-scrollable-container !gap-4 !pl-4 !pr-4 sp-c-gGbYbQ" role="tablist"><button aria-selected="true" class="sp-tab-button !text-lg !text-[#FDF1E7] sp-c-jCyRbv sp-c-cFDjHt" data-active="true" role="tab" title="/App.js" type="button">App.js<!-- --></button><button aria-selected="false" class="sp-tab-button !text-lg !text-[#FDF1E7] sp-c-jCyRbv sp-c-cFDjHt" data-active="false" role="tab" title="/hooks/useContent.js" type="button">useContent.js<!-- --></button></div></div><div class="sp-code-editor !bg-[#16181d] text-sm sp-c-bNbSGz"><div aria-describedby="enter-instructions-:Rp:" aria-label="Code Editor for App.js" class="sp-cm sp-pristine sp-javascript sp-c-jcgexo sp-c-jkvvao" role="group" tabindex="0" translate="no"><pre class="sp-pre-placeholder sp-c-fWymNx" style="margin-left:var(--sp-space-5)"><span class="sp-syntax-keyword">import</span> <!-- --><span class="sp-syntax-punctuation">{</span> <!-- --><span class="sp-syntax-plain">useState</span><span class="sp-syntax-punctuation">,</span> <!-- --><span class="sp-syntax-plain">useCallback</span> <!-- --><span class="sp-syntax-punctuation">}</span> <!-- --><span class="sp-syntax-keyword">from</span> <!-- --><span class="sp-syntax-string">&quot;react&quot;</span><span class="sp-syntax-punctuation">;</span>
+  <!-- --><span class="sp-syntax-keyword">import</span> <!-- --><span class="sp-syntax-punctuation">{</span> <!-- --><span class="sp-syntax-plain">useContent</span> <!-- --><span class="sp-syntax-punctuation">}</span> <!-- --><span class="sp-syntax-keyword">from</span> <!-- --><span class="sp-syntax-string">&#x27;./hooks/useContent&#x27;</span><span class="sp-syntax-punctuation">;</span>
+  
+  <!-- --><span class="sp-syntax-keyword">export</span> <!-- --><span class="sp-syntax-keyword">default</span> <!-- --><span class="sp-syntax-keyword">function</span> <!-- --><span class="sp-syntax-definition">App</span><span class="sp-syntax-punctuation">(</span><span class="sp-syntax-punctuation">)</span> <!-- --><span class="sp-syntax-punctuation">{</span>
+    <!-- --><span class="sp-syntax-keyword">const</span> <!-- --><span class="sp-syntax-punctuation">{</span><span class="sp-syntax-property">content</span><span class="sp-syntax-punctuation">,</span> <!-- --><span class="sp-syntax-property">isLoading</span><span class="sp-syntax-punctuation">}</span> = <!-- --><span class="sp-syntax-definition">useContent</span><span class="sp-syntax-punctuation">(</span><span class="sp-syntax-punctuation">)</span>
+    <!-- --><span class="sp-syntax-keyword">const</span> <!-- --><span class="sp-syntax-punctuation">[</span><span class="sp-syntax-plain">height</span><span class="sp-syntax-punctuation">,</span> <!-- --><span class="sp-syntax-plain">setHeight</span><span class="sp-syntax-punctuation">]</span> = <!-- --><span class="sp-syntax-definition">useState</span><span class="sp-syntax-punctuation">(</span><span class="sp-syntax-static">0</span><span class="sp-syntax-punctuation">)</span>
+    
+    <!-- --><span class="sp-syntax-keyword">const</span> <!-- --><span class="sp-syntax-plain">divRef</span> = <!-- --><span class="sp-syntax-definition">useCallback</span><span class="sp-syntax-punctuation">(</span><span class="sp-syntax-punctuation">(</span><span class="sp-syntax-plain">node</span><span class="sp-syntax-punctuation">)</span> <!-- --><span class="sp-syntax-punctuation">=&gt;</span> <!-- --><span class="sp-syntax-punctuation">{</span>
+        <!-- --><span class="sp-syntax-keyword">if</span><span class="sp-syntax-punctuation">(</span><span class="sp-syntax-plain">node</span><span class="sp-syntax-punctuation">)</span> <!-- --><span class="sp-syntax-punctuation">{</span>
+            <!-- --><span class="sp-syntax-definition">setHeight</span><span class="sp-syntax-punctuation">(</span><span class="sp-syntax-plain">node</span>.<!-- --><span class="sp-syntax-property">getBoundingClientRect</span><span class="sp-syntax-punctuation">(</span><span class="sp-syntax-punctuation">)</span>.<!-- --><span class="sp-syntax-property">height</span><span class="sp-syntax-punctuation">)</span>
+        <!-- --><span class="sp-syntax-punctuation">}</span>
+    <!-- --><span class="sp-syntax-punctuation">}</span><span class="sp-syntax-punctuation">)</span>
+  
+    <!-- --><span class="sp-syntax-keyword">if</span> <!-- --><span class="sp-syntax-punctuation">(</span><span class="sp-syntax-plain">isLoading</span><span class="sp-syntax-punctuation">)</span> <!-- --><span class="sp-syntax-punctuation">{</span>
+      <!-- --><span class="sp-syntax-keyword">return</span> <!-- --><span class="sp-syntax-punctuation">&lt;</span><span class="sp-syntax-tag">div</span><span class="sp-syntax-punctuation">&gt;</span>Loading...<!-- --><span class="sp-syntax-punctuation">&lt;/</span><span class="sp-syntax-tag">div</span><span class="sp-syntax-punctuation">&gt;</span>
+    <!-- --><span class="sp-syntax-punctuation">}</span>
+    
+    <!-- --><span class="sp-syntax-keyword">return</span> <!-- --><span class="sp-syntax-punctuation">(</span>
+      <!-- --><span class="sp-syntax-punctuation">&lt;</span><span class="sp-syntax-punctuation">&gt;</span>
+        <!-- --><span class="sp-syntax-punctuation">&lt;</span><span class="sp-syntax-tag">div</span> <!-- --><span class="sp-syntax-property">ref</span>=<!-- --><span class="sp-syntax-punctuation">{</span><span class="sp-syntax-plain">divRef</span><span class="sp-syntax-punctuation">}</span><span class="sp-syntax-punctuation">&gt;</span>
+          <!-- --><span class="sp-syntax-punctuation">{</span><span class="sp-syntax-plain">content</span><span class="sp-syntax-punctuation">}</span>
+        <!-- --><span class="sp-syntax-punctuation">&lt;/</span><span class="sp-syntax-tag">div</span><span class="sp-syntax-punctuation">&gt;</span>
+        <!-- --><span class="sp-syntax-punctuation">&lt;</span><span class="sp-syntax-tag">span</span><span class="sp-syntax-punctuation">&gt;</span>Height is: <!-- --><span class="sp-syntax-punctuation">{</span><span class="sp-syntax-plain">height</span><span class="sp-syntax-punctuation">}</span><span class="sp-syntax-punctuation">&lt;/</span><span class="sp-syntax-tag">span</span><span class="sp-syntax-punctuation">&gt;</span>
+      <!-- --><span class="sp-syntax-punctuation">&lt;/</span><span class="sp-syntax-punctuation">&gt;</span>
+    <!-- --><span class="sp-syntax-punctuation">)</span>
+  <!-- --><span class="sp-syntax-punctuation">}</span></pre><p id="enter-instructions-:Rp:" style="display:none">To enter the code editing mode, press Enter. To exit the edit mode, press Escape</p><p id="exit-instructions-:Rp:" style="display:none">You are editing the code. To exit the edit mode, press Escape</p></div></div></div><div class="sp-stack md:min-h-[450px] sp-c-jKpMgH"><div class="sp-preview-container sp-c-bIhyHd"><iframe class="sp-preview-iframe sp-c-fgviib" title="Sandpack Preview"></iframe><div class="sp-preview-actions sp-c-eKnQtg"></div></div></div></div></div></div></astro-root>
+<p>چرا useEffect درست جواب نمی‌داد؟ ببینید useEffect ما زمانی اجرا می‌شه که divRef تغییر کرده باشه اما ماهیت ref اینه که بین رندرها تغییر نکنه و عملا قرار دادن <code>divRef</code> تو لیست وابستگی‌ها هیچ اتفاقی رو رقم نمی‌زنه و کاملا بیهوده‌ست!</p>
+<p>از طرفی <code>divRef.current</code> هم به عنوان وابستگی نمی‌تونیم قرار بدیم چون تغییر کردنش باعث رندر مجدد نمی‌شه و در نتیجه از دید ری‌اکت به عنوان وابستگی معتبر حساب نمی‌شه و از این لحاظ به هیچ دردی نمی‌خوره.</p>
+<p>ولی روح الله اصرار داره که قبلا از این روش استفاده کرده بوده و جواب داده، خب آره اگه div ما به صورت شرطی رندر نمی‌شد این مشکل پیش نمی‌اومد چون useEffect بار اول کاری به لیست وابستگی‌ها نداره و در هر صورت اجرا میشه، ولی همیشه اینطور نیست و در نتیجه useEffect اینجا راه حل استیبلی نیست.</p>
+<p>در نهایت اگه نیاز به clean up داشه باشیم می‌تونیم داخل بلوک else این کار رو هم انجام بدیم، مثلا فرض کنید قصد داریم از Resize Observer برای گرفتن ارتفاع المان استفاده کنیم:</p>
+<astro-root ssr uid="ZKVaO5"><div dir="ltr" class="-ml-5 -mr-5"><div class="sp-wrapper dark sp-c-fVPbOs"><div class="sp-layout !rounded-lg sp-c-dvoSuG"><div class="sp-stack md:min-h-[450px] sp-c-jKpMgH"><div class="sp-code-editor !bg-[#16181d] text-sm sp-c-bNbSGz"><div aria-describedby="enter-instructions-:Rp:" aria-label="Code Editor for App.js" class="sp-cm sp-pristine sp-javascript sp-c-jcgexo sp-c-jkvvao" role="group" tabindex="0" translate="no"><pre class="sp-pre-placeholder sp-c-fWymNx" style="margin-left:var(--sp-space-5)"><span class="sp-syntax-keyword">import</span> <!-- --><span class="sp-syntax-punctuation">{</span> <!-- --><span class="sp-syntax-plain">useState</span><span class="sp-syntax-punctuation">,</span> <!-- --><span class="sp-syntax-plain">useCallback</span> <!-- --><span class="sp-syntax-punctuation">}</span> <!-- --><span class="sp-syntax-keyword">from</span> <!-- --><span class="sp-syntax-string">&quot;react&quot;</span><span class="sp-syntax-punctuation">;</span>
+    
+<!-- --><span class="sp-syntax-keyword">export</span> <!-- --><span class="sp-syntax-keyword">default</span> <!-- --><span class="sp-syntax-keyword">function</span> <!-- --><span class="sp-syntax-definition">App</span><span class="sp-syntax-punctuation">(</span><span class="sp-syntax-punctuation">)</span> <!-- --><span class="sp-syntax-punctuation">{</span>
+    <!-- --><span class="sp-syntax-keyword">const</span> <!-- --><span class="sp-syntax-punctuation">[</span><span class="sp-syntax-plain">height</span><span class="sp-syntax-punctuation">,</span> <!-- --><span class="sp-syntax-plain">setHeight</span><span class="sp-syntax-punctuation">]</span> = <!-- --><span class="sp-syntax-definition">useState</span><span class="sp-syntax-punctuation">(</span><span class="sp-syntax-static">0</span><span class="sp-syntax-punctuation">)</span>
+      
+    <!-- --><span class="sp-syntax-keyword">const</span> <!-- --><span class="sp-syntax-plain">divRef</span> = <!-- --><span class="sp-syntax-definition">useCallback</span><span class="sp-syntax-punctuation">(</span><span class="sp-syntax-punctuation">(</span><span class="sp-syntax-plain">node</span><span class="sp-syntax-punctuation">)</span> <!-- --><span class="sp-syntax-punctuation">=&gt;</span> <!-- --><span class="sp-syntax-punctuation">{</span>
+        <!-- --><span class="sp-syntax-keyword">let</span> <!-- --><span class="sp-syntax-plain">resizeObserver</span> = <!-- --><span class="sp-syntax-keyword">new</span> <!-- --><span class="sp-syntax-plain">ResizeObserver</span><span class="sp-syntax-punctuation">(</span><span class="sp-syntax-punctuation">(</span><span class="sp-syntax-plain">entries</span><span class="sp-syntax-punctuation">)</span> <!-- --><span class="sp-syntax-punctuation">=&gt;</span> <!-- --><span class="sp-syntax-punctuation">{</span>
+            <!-- --><span class="sp-syntax-keyword">for</span> <!-- --><span class="sp-syntax-punctuation">(</span><span class="sp-syntax-keyword">let</span> <!-- --><span class="sp-syntax-plain">entry</span> <!-- --><span class="sp-syntax-keyword">of</span> <!-- --><span class="sp-syntax-plain">entries</span><span class="sp-syntax-punctuation">)</span> <!-- --><span class="sp-syntax-punctuation">{</span>
+                <!-- --><span class="sp-syntax-keyword">if</span> <!-- --><span class="sp-syntax-punctuation">(</span><span class="sp-syntax-plain">entry</span>.<!-- --><span class="sp-syntax-property">borderBoxSize</span> &amp;&amp; <!-- --><span class="sp-syntax-plain">entry</span>.<!-- --><span class="sp-syntax-property">borderBoxSize</span>.<!-- --><span class="sp-syntax-property">length</span><span class="sp-syntax-punctuation">)</span> <!-- --><span class="sp-syntax-punctuation">{</span>
+                    <!-- --><span class="sp-syntax-definition">setHeight</span><span class="sp-syntax-punctuation">(</span><span class="sp-syntax-plain">entry</span>.<!-- --><span class="sp-syntax-property">borderBoxSize</span><span class="sp-syntax-punctuation">[</span><span class="sp-syntax-static">0</span><span class="sp-syntax-punctuation">]</span>.<!-- --><span class="sp-syntax-property">blockSize</span><span class="sp-syntax-punctuation">)</span><span class="sp-syntax-punctuation">;</span>
+                <!-- --><span class="sp-syntax-punctuation">}</span>
+            <!-- --><span class="sp-syntax-punctuation">}</span>
+        <!-- --><span class="sp-syntax-punctuation">}</span><span class="sp-syntax-punctuation">)</span><span class="sp-syntax-punctuation">;</span>
+
+        <!-- --><span class="sp-syntax-keyword">if</span><span class="sp-syntax-punctuation">(</span><span class="sp-syntax-plain">node</span><span class="sp-syntax-punctuation">)</span> <!-- --><span class="sp-syntax-punctuation">{</span>
+            <!-- --><span class="sp-syntax-plain">resizeObserver</span>.<!-- --><span class="sp-syntax-property">observe</span><span class="sp-syntax-punctuation">(</span><span class="sp-syntax-plain">node</span><span class="sp-syntax-punctuation">)</span><span class="sp-syntax-punctuation">;</span>
+        <!-- --><span class="sp-syntax-punctuation">}</span> <!-- --><span class="sp-syntax-keyword">else</span> <!-- --><span class="sp-syntax-punctuation">{</span>
+            <!-- --><span class="sp-syntax-plain">resizeObserver</span>.<!-- --><span class="sp-syntax-property">disconnect</span><span class="sp-syntax-punctuation">(</span><span class="sp-syntax-punctuation">)</span><span class="sp-syntax-punctuation">;</span>
+            <!-- --><span class="sp-syntax-plain">resizeObserver</span> = <!-- --><span class="sp-syntax-keyword">null</span><span class="sp-syntax-punctuation">;</span>
+        <!-- --><span class="sp-syntax-punctuation">}</span>
+    <!-- --><span class="sp-syntax-punctuation">}</span><span class="sp-syntax-punctuation">)</span>
+      
+    <!-- --><span class="sp-syntax-keyword">return</span> <!-- --><span class="sp-syntax-punctuation">(</span>
+        <!-- --><span class="sp-syntax-punctuation">&lt;</span><span class="sp-syntax-punctuation">&gt;</span>
+            <!-- --><span class="sp-syntax-punctuation">&lt;</span><span class="sp-syntax-tag">div</span> <!-- --><span class="sp-syntax-property">ref</span>=<!-- --><span class="sp-syntax-punctuation">{</span><span class="sp-syntax-plain">divRef</span><span class="sp-syntax-punctuation">}</span><span class="sp-syntax-punctuation">&gt;</span>
+                some content
+            <!-- --><span class="sp-syntax-punctuation">&lt;/</span><span class="sp-syntax-tag">div</span><span class="sp-syntax-punctuation">&gt;</span>
+            <!-- --><span class="sp-syntax-punctuation">&lt;</span><span class="sp-syntax-tag">span</span><span class="sp-syntax-punctuation">&gt;</span>Height is: <!-- --><span class="sp-syntax-punctuation">{</span><span class="sp-syntax-plain">height</span><span class="sp-syntax-punctuation">}</span><span class="sp-syntax-punctuation">&lt;/</span><span class="sp-syntax-tag">span</span><span class="sp-syntax-punctuation">&gt;</span>
+        <!-- --><span class="sp-syntax-punctuation">&lt;/</span><span class="sp-syntax-punctuation">&gt;</span>
+    <!-- --><span class="sp-syntax-punctuation">)</span>
+<!-- --><span class="sp-syntax-punctuation">}</span></pre><p id="enter-instructions-:Rp:" style="display:none">To enter the code editing mode, press Enter. To exit the edit mode, press Escape</p><p id="exit-instructions-:Rp:" style="display:none">You are editing the code. To exit the edit mode, press Escape</p></div></div></div><div class="sp-stack md:min-h-[450px] sp-c-jKpMgH"><div class="sp-preview-container sp-c-bIhyHd"><iframe class="sp-preview-iframe sp-c-fgviib" title="Sandpack Preview"></iframe><div class="sp-preview-actions sp-c-eKnQtg"></div></div></div></div></div></div></astro-root>
+<p>راستی یکی دیگه از منابع اصلی این پست <a href="https://www.youtube.com/watch?v=HPoC-k7Rxwo">صحبت‌های David Khourshid (سازنده xstate) تو reactathon</a> بود و شدیدا توصیه می‌کنم ببینیدش، البته شخصا با همه حرفاش موافق نیستم ولی در کل خوب بود.</p>
+<p>امیدوارم لذت برده باشید، حرفی حدیثی بود لینکدین در خدمتیم 😉</p>
+        </article>
+      </main>
+      <div class="pb-8">
+        <a href="/blog">&lt;- بازگشت</a>
+      </div>
+    </div>
+  </body>
+</html>

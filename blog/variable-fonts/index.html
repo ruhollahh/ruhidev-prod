@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <link rel="icon" href="/favicon.svg">
+    <meta name="description" content="افزایش سرعت لود و کاهش تعداد درخواست‌ها با استفاده از فونت‌های متغیر رو بررسی می‌کنیم و از گوگل برای بهینه‌سازی فونت‌هامون استفاده می‌کنیم.">
+    <meta name="twitter:image" content="https://res.cloudinary.com/ruhollahh/image/upload/v1654191010/ruhidev/demo-text-font_vakkyq.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+    <!-- <meta name="twitter:creator" content="@twitterUsername" /> -->
+    <meta property="og:title" content="استفاده از فونت‌های متغیر و بهینه شده">
+    <meta property="og:description" content="افزایش سرعت لود و کاهش تعداد درخواست‌ها با استفاده از فونت‌های متغیر رو بررسی می‌کنیم و از گوگل برای بهینه‌سازی فونت‌هامون استفاده می‌کنیم.">
+    <meta property="og:image" content="https://res.cloudinary.com/ruhollahh/image/upload/v1654191010/ruhidev/demo-text-font_vakkyq.jpg">
+    <meta name="google-site-verification" content="zHY3_g7-iPbCh2aQVzINBG2yX2ZK5g2PUuW4vrUutnw">
+    <meta name="theme-color" content="#000000">
+    <title>استفاده از فونت‌های متغیر و بهینه شده</title>
+
+    <script defer data-domain="ruhidev.com" src="https://plausible.io/js/plausible.js"></script>
+  <link rel="stylesheet" href="/assets/asset.8b38c9c8.css" /><style>astro-root, astro-fragment { display: contents; }</style><script type="module" data-astro-component-hydration>import setup from '/entry.316778ed.js';
+import 'data:text/javascript;charset=utf-8,//[no before-hydration script]';
+setup("1lDrQz", {name:"VariableFont",value: true}, async () => {
+  const [{ default: Component }, { default: hydrate }] = await Promise.all([import("/entry.42db17d8.js"), import("/entry.1e6ad0e1.js")]);
+  return (el, children) => hydrate(el)(Component, {}, children, {"client":"load"});
+
+});
+</script>
+</head>
+  <body>
+    <div class="max-w-[64rem] mx-auto px-5">
+      <a href="/blog"><div class="text-xl pt-8">پست‌های بلاگ</div></a>
+      <main>
+        <article class="prose prose-lg lg:prose-xl pb-10 max-w-none">
+          <div>
+  <h2 class="m-0 p-0 font-bold" style="margin-block-end: 0.5rem;; margin-block-start: 1rem;">
+    استفاده از فونت‌های متغیر و بهینه شده
+  </h2>
+  <time datetime="Thu Jun 02 2022 00:00:00 GMT+0430 (Iran Daylight Time)">24 روز پیش</time>
+</div>
+          <p>باکسی که پایین می‌بینید یه کامپوننت تعاملی هست و می‌تونید باهاش… تعامل داشته باشید!</p>
+
+<div class="mx-auto w-72"><astro-root ssr uid="1lDrQz"><div class="flex flex-col gap-4 rounded-lg bg-[#2D1832] p-5"><div class="flex gap-3 justify-between"><input type="range" step="1" min="100" max="900" class="hover:cursor-pointer" value="200"/><span class="text-sm text-white">200<!-- --></span></div><div class="flex-grow flex justify-center items-center rounded-md bg-white text-[#2D1832]"><p style="font-weight:200">وِیت... وات؟</p></div></div></astro-root></div>
+
+<p>داستان چیه؟ فونتی که بالا می‌بینید نسخه متغیر فونت وزیرمتن هست.</p>
+<h2 id="فونت-متغیر-variablefont">فونت متغیر (variable font)</h2>
+<p>فونت متغیر (variable font) یه تکنولوژی نسبتا جدیده که عملا نیاز شما به فایل‌های متعدد برای هر شکلی از فونت رو برطرف می‌کنه.</p>
+<p>در واقع برای کامپوننتی که مشاهده کردید (و البته کل این بلاگ) فقط یک فایل ۴۵ کیلوبایتی با فرمت woff2 دانلود میشه که همه وزن‌های بین ۱۰۰ تا ۹۰۰ رو می‌تونه رندر کنه.</p>
+<h2 id="چی-شد-که-اینجوری-شد">چی شد که اینجوری شد؟</h2>
+<p>وب فونت‌های استاندارد برای هر شکل و وزنی یه فایل مجزا دارند و مثلا اگه بخوایم وزن‌های ۳۰۰، ۴۰۰ و ۷۰۰ فونت وزیر رو از <a href="https://rastikerdar.github.io/vazirmatn/fa">صفحه اصلیش</a> دانلود کنیم می‌بینیم که حجم هر کدوم چیزی حدود ۵۰ کیلوبایت هست که باهم میشن حدودا ۱۵۰ کیلوبایت.</p>
+<p>با این حال فونت وزیرمتن استایل ایتالیک نداره، ولی اگه داشت باید وزن‌های اونم اضافه می‌کردیم و ۱۵۰ کیلوبایت می‌شد ۳۰۰ کیلوبایت.</p>
+<p>هرچقدر فونت‌های با حجم‌های بیشتری اضافه کنیم سرعت لود صفحه پایین‌تر و در نتیجه تجربه کاربری بدتری خواهیم داشت.</p>
+<p>شاید تا حالا به این جور هشدارهای گوگل برخورده باشید:</p>
+
+<div class="mx-auto w-[48rem] max-w-full aspect-video"><div class="isolate relative overflow-hidden w-full h-full">
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAACCAIAAADwyuo0AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAI0lEQVQImWNgkjZkYFJkUrDi1XBiePfq6Ysn9/7///3711cAXzoMjy6djo0AAAAASUVORK5CYII=" alt="" class="z-[-1] absolute scale-150 filter blur-2xl w-full h-full">
+    <picture>
+      <source type="image/avif" srcset="
+            https://res.cloudinary.com/ruhollahh/image/upload/w_896/v1654198733/ruhidev/google-insight-warning_df40os.avif 1x,
+            https://res.cloudinary.com/ruhollahh/image/upload/w_1280/v1654198733/ruhidev/google-insight-warning_df40os.avif 2x,
+            https://res.cloudinary.com/ruhollahh/image/upload/w_1920/v1654198733/ruhidev/google-insight-warning_df40os.avif 3x
+          "><source type="image/webp" srcset="
+            https://res.cloudinary.com/ruhollahh/image/upload/w_896/v1654198733/ruhidev/google-insight-warning_df40os.webp 1x,
+            https://res.cloudinary.com/ruhollahh/image/upload/w_1280/v1654198733/ruhidev/google-insight-warning_df40os.webp 2x,
+            https://res.cloudinary.com/ruhollahh/image/upload/w_1920/v1654198733/ruhidev/google-insight-warning_df40os.webp 3x
+          ">
+      <source type="image/png" srcset="
+          https://res.cloudinary.com/ruhollahh/image/upload/w_896/v1654198733/ruhidev/google-insight-warning_df40os.png 1x,
+          https://res.cloudinary.com/ruhollahh/image/upload/w_1280/v1654198733/ruhidev/google-insight-warning_df40os.png 2x,
+          https://res.cloudinary.com/ruhollahh/image/upload/w_1920/v1654198733/ruhidev/google-insight-warning_df40os.png 3x
+        ">
+      <img src="https://res.cloudinary.com/ruhollahh/image/upload/w_896/v1654198733/ruhidev/google-insight-warning_df40os.png" class="w-full h-full object-cover text-transparent" style="object-position: left;" alt="هشدار گوگل در باب نمایش ندادن متن تا زمان لود شدن فونت" loading="lazy" decoding="async">
+    </picture>
+</div></div>
+
+<p>در واقع ۲ حالت داره، یا تا زمانی که فونت دانلود نشه متن به کاربر نشون داده نمیشه و یا متنی که نشون داده میشه زشت و بی‌ریخته 🤢</p>
+<h2 id="فونت-بهینه-شده">فونت بهینه شده</h2>
+<p>حالا می‌رسیم به بحث بهینه سازی فونت که حقیقتا شخصا تخصصی تو این زمینه ندارم اما بگذارید اول با مشکل آشنا بشیم.</p>
+<p>مشکل اینه که اگه دقت کنید می‌بینید داخل همین فایل فونت وزیرمتن نسخه متغیرش هم موجوده اما حجمش تقریبا ۲۴۰ کیلوباته 😬</p>
+<p>حالا راه‌ها و ابزارهای زیادی برای بهینه سازی فونت هست که توی این پست راجع بهش صحبت نخواهیم کرد اما از خوش‌شانسی ما فونت وزیرمتن به تازگی به مجموعه فونت‌های گوگل اضافه شده و گوگل عملا کار بهینه‌سازی رو برامون انجام داده.</p>
+<p>در واقع اگه فونت وزیرمتن رو از داخل <a href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100;200;300;400;500;600;700;800;900&display=swap">فایل cssای</a> که گوگل در اختیارمون قرار میده دانلود کنیم با یه فایل ۴۵ کیلوبایتی مواجه می‌شیم که همه وزن‌ها رو ساپورت می‌کنه.</p>
+<p>دقت کنید ما فقط نسخه عربی رو لازم داریم و کاری به نسخه‌های لاتین نداریم.</p>
+<h2 id="میزبانی-و-استفاده-از-فونت">میزبانی و استفاده از فونت</h2>
+<p>سرورهای گوگل سریعن ولی به احتمال زیاد اگه فونت‌هاتون رو خودتون میزبانی کنید نتیجه بهتری به دست میارید (به شخصه تجربه خوبی از تاثیری که Google Analytics ملعون روی سرعت لود صفحاتم داشته ندارم 🤕).</p>
+<p>برای استفادش هم <a href="https://css-tricks.com/newsletter/259-how-to-use-variable-fonts/">به این شکل</a> باید عمل کنید:</p>
+<pre class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color: #FF7B72">@font-face</span><span style="color: #C9D1D9"> {</span></span>
+<span class="line"><span style="color: #C9D1D9">  </span><span style="color: #79C0FF">font-family</span><span style="color: #C9D1D9">: </span><span style="color: #A5D6FF">&quot;Vazirmatn&quot;</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #C9D1D9">  </span><span style="color: #79C0FF">src</span><span style="color: #C9D1D9">: </span><span style="color: #79C0FF">url</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">&quot;مسیر قرارگیری فونت&quot;</span><span style="color: #C9D1D9">) </span><span style="color: #79C0FF">format</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">&quot;woff2 supports variations&quot;</span><span style="color: #C9D1D9">), </span><span style="color: #79C0FF">url</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">&quot;مسیر قرارگیری فونت&quot;</span><span style="color: #C9D1D9">)</span></span>
+<span class="line"><span style="color: #C9D1D9">      </span><span style="color: #79C0FF">format</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">&quot;woff2-variations&quot;</span><span style="color: #C9D1D9">);</span></span>
+<span class="line"><span style="color: #C9D1D9">  </span><span style="color: #79C0FF">font-weight</span><span style="color: #C9D1D9">: </span><span style="color: #79C0FF">100</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">900</span><span style="color: #C9D1D9">;</span></span>
+<span class="line"><span style="color: #C9D1D9">}</span></span></code></pre>
+<p>توجه کنید که هر دو فرمت “woff2 supports variations” و “woff2-variations” به یه آدرس اشاره می‌کنن و دلیل این تکرار این هست که “woff2 supports variations” سینتکس جدیدشه و “woff2-variations” سینتکس قدیمی و منسوخ شده هست و برای سازگاری بیشتر هر دو رو قرار می‌دیم.</p>
+<p>فونت‌های متغیر توسط همه مرورگرهای مدرن ساپورت میشن ولی مثلا تو IE ساپورت نمیشن که خب اتفاق خاصی هم نمی‌افته و فال‌بک می‌کنه رو یه فونت دیگه :))</p>
+        </article>
+      </main>
+      <div class="pb-8">
+        <a href="/blog">&lt;- بازگشت</a>
+      </div>
+    </div>
+  </body>
+</html>
