@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" class="h-full">
+  <head>
+    <!-- Google tag (gtag.js) --><script async src="https://www.googletagmanager.com/gtag/js?id=G-GR2RVT9K79"></script>
+
+
+<!-- Global Metadata --><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<meta name="generator" content="Astro v1.8.0">
+
+<!-- Primary Meta Tags -->
+<title>الگوهای دیتا فچینگ در ری‌اکت</title>
+<meta name="title" content="الگوهای دیتا فچینگ در ری‌اکت">
+<meta name="description" content="اتفاقای جالبی داره سمت دیتا فچینگ تو ری‌اکت می‌افته از یه طرف react router dom رو داریم که تو نسخه 6.4 خودش دیتا لودرهارو معرفی کرد و از طرف دیگه با next 13 روبه‌رو هستیم که داره معماری SSR/Suspense جدیدش رو در قالب دایرکتوری app آماده می‌کنه تا جایگزین معماری قبلی بشه.">
+
+<meta name="google-site-verification" content="zHY3_g7-iPbCh2aQVzINBG2yX2ZK5g2PUuW4vrUutnw">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://ruhidev.com/blog/data-fetching-in-react/">
+<meta property="og:title" content="الگوهای دیتا فچینگ در ری‌اکت">
+<meta property="og:description" content="اتفاقای جالبی داره سمت دیتا فچینگ تو ری‌اکت می‌افته از یه طرف react router dom رو داریم که تو نسخه 6.4 خودش دیتا لودرهارو معرفی کرد و از طرف دیگه با next 13 روبه‌رو هستیم که داره معماری SSR/Suspense جدیدش رو در قالب دایرکتوری app آماده می‌کنه تا جایگزین معماری قبلی بشه.">
+<meta property="og:image" content="https://res.cloudinary.com/ruhollahh/image/upload/v1674745644/ruhidev/loading_agwcbq.jpg">
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image">
+<meta property="twitter:url" content="https://ruhidev.com/blog/data-fetching-in-react/">
+<meta property="twitter:title" content="الگوهای دیتا فچینگ در ری‌اکت">
+<meta property="twitter:description" content="اتفاقای جالبی داره سمت دیتا فچینگ تو ری‌اکت می‌افته از یه طرف react router dom رو داریم که تو نسخه 6.4 خودش دیتا لودرهارو معرفی کرد و از طرف دیگه با next 13 روبه‌رو هستیم که داره معماری SSR/Suspense جدیدش رو در قالب دایرکتوری app آماده می‌کنه تا جایگزین معماری قبلی بشه.">
+<meta property="twitter:image" content="https://res.cloudinary.com/ruhollahh/image/upload/v1674745644/ruhidev/loading_agwcbq.jpg">
+
+    <link rel="stylesheet" href="/theme.css">
+  <link rel="stylesheet" href="/assets/blog.d5a0ad07.css" />
+<link rel="stylesheet" href="/assets/index.241c70ab.css" /><script type="module">window.dataLayer=window.dataLayer||[];function a(){dataLayer.push(arguments)}a("js",new Date);a("config","G-GR2RVT9K79");
+</script></head>
+
+  <body class="h-full">
+    <div class="with-playground h-full">
+      <nav class="flex gap-5 items-center bg-[#3abff8] px-4 h-10 -mb-px">
+        <a href="/blog" class="md:flex md:gap-2 -mt-[6px] md:m-0 no-underline acive:no-underline focus:no-underline hover:no-underline"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024" color="#002b3d" style="color:#002b3d" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M946.5 505L534.6 93.4a31.93 31.93 0 0 0-45.2 0L77.5 505c-12 12-18.8 28.3-18.8 45.3 0 35.3 28.7 64 64 64h43.4V908c0 17.7 14.3 32 32 32H448V716h112v224h265.9c17.7 0 32-14.3 32-32V614.3h43.4c17 0 33.3-6.7 45.3-18.8 24.9-25 24.9-65.5-.1-90.5z"></path></svg>
+          <span class="hidden md:inline text-[#002b3d]">بلاگ</span>
+        </a>
+        <a href="#content" class="md:hidden no-underline acive:no-underline focus:no-underline hover:no-underline text-[#002b3d]">مطالعه</a>
+        <a href="#editor" class="md:hidden no-underline acive:no-underline focus:no-underline hover:no-underline text-[#002b3d]">ویرایشگر کد</a>
+      </nav>
+      <div class="grid grid-flow-col auto-cols-[100%] md:block h-[calc(100%-2.5rem)] will-change-scroll overflow-x-auto overflow-y-hidden overscroll-contain snap-x snap-mandatory scroll-smooth">
+        <div id="content" class="w-full md:w-1/2 h-full overflow-y-auto overflow-x-hidden custom-scrollbar snap-start">
+          <main class="w-full">
+            <article class="prose prose-lg lg:prose-xl min-w-full px-4">
+              <div>
+  <h2 class="m-0 p-0 font-bold" style="margin-block-end: 0.5rem;; margin-block-start: 1rem;">
+    الگوهای دیتا فچینگ در ری‌اکت
+  </h2>
+  <time datetime="Thu Jan 26 2023 00:00:00 GMT+0330 (Iran Standard Time)">1 ماه پیش</time>
+</div>
+              <style>astro-island,astro-slot{display:contents}</style><script>(self.Astro=self.Astro||{}).visible=(s,c,n)=>{const r=async()=>{await(await s())()};let i=new IntersectionObserver(e=>{for(const t of e)if(!!t.isIntersecting){i.disconnect(),r();break}});for(let e=0;e<n.children.length;e++){const t=n.children[e];i.observe(t)}},window.dispatchEvent(new Event("astro:visible"));var l;{const c={0:t=>t,1:t=>JSON.parse(t,o),2:t=>new RegExp(t),3:t=>new Date(t),4:t=>new Map(JSON.parse(t,o)),5:t=>new Set(JSON.parse(t,o)),6:t=>BigInt(t),7:t=>new URL(t),8:t=>new Uint8Array(JSON.parse(t)),9:t=>new Uint16Array(JSON.parse(t)),10:t=>new Uint32Array(JSON.parse(t))},o=(t,s)=>{if(t===""||!Array.isArray(s))return s;const[e,n]=s;return e in c?c[e](n):void 0};customElements.get("astro-island")||customElements.define("astro-island",(l=class extends HTMLElement{constructor(){super(...arguments);this.hydrate=()=>{if(!this.hydrator||this.parentElement&&this.parentElement.closest("astro-island[ssr]"))return;const s=this.querySelectorAll("astro-slot"),e={},n=this.querySelectorAll("template[data-astro-template]");for(const r of n){const i=r.closest(this.tagName);!i||!i.isSameNode(this)||(e[r.getAttribute("data-astro-template")||"default"]=r.innerHTML,r.remove())}for(const r of s){const i=r.closest(this.tagName);!i||!i.isSameNode(this)||(e[r.getAttribute("name")||"default"]=r.innerHTML)}const a=this.hasAttribute("props")?JSON.parse(this.getAttribute("props"),o):{};this.hydrator(this)(this.Component,a,e,{client:this.getAttribute("client")}),this.removeAttribute("ssr"),window.removeEventListener("astro:hydrate",this.hydrate),window.dispatchEvent(new CustomEvent("astro:hydrate"))}}connectedCallback(){!this.hasAttribute("await-children")||this.firstChild?this.childrenConnectedCallback():new MutationObserver((s,e)=>{e.disconnect(),this.childrenConnectedCallback()}).observe(this,{childList:!0})}async childrenConnectedCallback(){window.addEventListener("astro:hydrate",this.hydrate);let s=this.getAttribute("before-hydration-url");s&&await import(s),this.start()}start(){const s=JSON.parse(this.getAttribute("opts")),e=this.getAttribute("client");if(Astro[e]===void 0){window.addEventListener(`astro:${e}`,()=>this.start(),{once:!0});return}Astro[e](async()=>{const n=this.getAttribute("renderer-url"),[a,{default:r}]=await Promise.all([import(this.getAttribute("component-url")),n?import(n):()=>()=>{}]),i=this.getAttribute("component-export")||"default";if(!i.includes("."))this.Component=a[i];else{this.Component=a;for(const d of i.split("."))this.Component=this.Component[d]}return this.hydrator=r,this.hydrate},s,this)}attributeChangedCallback(){this.hydrator&&this.hydrate()}},l.observedAttributes=["props"],l))}</script><link rel="stylesheet" href="/assets/blog.d5a0ad07.css" />
+<link rel="stylesheet" href="/assets/index.241c70ab.css" /><script type="module">window.dataLayer=window.dataLayer||[];function a(){dataLayer.push(arguments)}a("js",new Date);a("config","G-GR2RVT9K79");
+</script><p>اتفاقای جالبی داره سمت دیتا فچینگ تو ری‌اکت می‌افته از یه طرف react router dom رو داریم که تو نسخه 6.4 خودش دیتا لودرهارو معرفی کرد و از طرف دیگه با next 13 روبه‌رو هستیم که داره معماری SSR/Suspense جدیدش رو در قالب دایرکتوری app آماده می‌کنه تا جایگزین معماری قبلی بشه.</p><p>از طرفی ممکنه به یه سری اصطلاحات مثل fetch-on-render و fetch-then-render و render-as-you-fetch این وسط برخورد کنید که شاید یه مقدار گیج کننده باشه و توی این پست هم دقیقا قصد داریم همین الگوها رو با هم بررسی کنیم.</p><p>* تو این پست initial data مورد بحث هست یعنی دیتایی که برای لود صفحه بهش نیاز داریم نه دیتایی که در اثر تعامل کاربر با صفحه درخواست میشه.</p><p>* در مورد نکست تو این پست زیاد صحبت نمیشه اما برنامه دارم تو پست‌های بعدی بیشتر بهش بپردازم.</p><h2 id="fetch-on-render">Fetch-on-render</h2><p>احتمالا همین الان هم با این الگو آشنا هستید و بارها ازش استفاده کردید.</p><p>توی این روش درخواست برای دیتا داخل useEffect شروع میشه:</p>
+<figure class="code-snippet lang-jsx">
+  <figcaption class="header" dir="ltr">
+    
+  </figcaption>
+  <pre class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color:#FF7B72">import</span><span style="color:#C9D1D9"> { getData } </span><span style="color:#FF7B72">from</span><span style="color:#C9D1D9"> </span><span style="color:#A5D6FF">&#39;blahblah&#39;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">const</span><span style="color:#C9D1D9"> </span><span style="color:#D2A8FF">Component</span><span style="color:#C9D1D9"> </span><span style="color:#FF7B72">=</span><span style="color:#C9D1D9"> () </span><span style="color:#FF7B72">=&gt;</span><span style="color:#C9D1D9"> {</span></span>
+<span class="line"><span style="color:#C9D1D9">  </span><span style="color:#FF7B72">const</span><span style="color:#C9D1D9"> [</span><span style="color:#79C0FF">data</span><span style="color:#C9D1D9">, </span><span style="color:#79C0FF">setData</span><span style="color:#C9D1D9">] </span><span style="color:#FF7B72">=</span><span style="color:#C9D1D9"> </span><span style="color:#D2A8FF">useState</span><span style="color:#C9D1D9">();</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#C9D1D9">  </span><span style="color:#D2A8FF">useEffect</span><span style="color:#C9D1D9">(() </span><span style="color:#FF7B72">=&gt;</span><span style="color:#C9D1D9"> {</span></span>
+<span class="line"><span style="color:#C9D1D9">    (</span><span style="color:#FF7B72">async</span><span style="color:#C9D1D9"> () </span><span style="color:#FF7B72">=&gt;</span><span style="color:#C9D1D9"> {</span></span>
+<span class="line"><span style="color:#C9D1D9">      </span><span style="color:#FF7B72">const</span><span style="color:#C9D1D9"> </span><span style="color:#79C0FF">data</span><span style="color:#C9D1D9"> </span><span style="color:#FF7B72">=</span><span style="color:#C9D1D9"> </span><span style="color:#FF7B72">await</span><span style="color:#C9D1D9"> </span><span style="color:#D2A8FF">getData</span><span style="color:#C9D1D9">();</span></span>
+<span class="line"><span style="color:#C9D1D9">      </span><span style="color:#D2A8FF">setData</span><span style="color:#C9D1D9">(data);</span></span>
+<span class="line"><span style="color:#C9D1D9">    })()</span></span>
+<span class="line"><span style="color:#C9D1D9">  }, []);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#C9D1D9">  </span><span style="color:#FF7B72">if</span><span style="color:#C9D1D9"> (</span><span style="color:#FF7B72">!</span><span style="color:#C9D1D9">data) {</span></span>
+<span class="line"><span style="color:#C9D1D9">    </span><span style="color:#FF7B72">return</span><span style="color:#C9D1D9"> &lt;</span><span style="color:#7EE787">div</span><span style="color:#C9D1D9">&gt;Loading...&lt;/</span><span style="color:#7EE787">div</span><span style="color:#C9D1D9">&gt;</span></span>
+<span class="line"><span style="color:#C9D1D9">  }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#C9D1D9">  </span><span style="color:#FF7B72">return</span><span style="color:#C9D1D9"> &lt;&gt;...&lt;/&gt;</span></span>
+<span class="line"><span style="color:#C9D1D9">}</span></span></code></pre>
+</figure><p>احتمالا مطلع هستید که useEffect بعد از رندر شدن کامپوننت اجرا میشه.</p><p>و این یعنی تا کامپوننت رندر نشه درخواستی برای دیتای اون کامپوننت ارسال نمیشه.</p><p>در واقع تو قدم اول چون هنوز دیتا نداریم یه حالت لودینگ داره رندر میشه و بعد از اینکه دیتا دریافت شد و استیت تغییر کرد با رندر مجدد کامپوننت ui اصلی نمایش داده میشه.</p><p>رندر -> شروع fetch -> اتمام fetch -> ری‌رندر</p><p>حالا چه زمانی کامپوننت رندر میشه؟ وقتی تمام کدهای جاوااسکریپت spa لود و اجرا بشه.</p><p>مرورگر صرفا برای اینکه درخواست برای دیتا رو شروع کنه نیاز داره که اول کدهای جاوااسکریپت کل spa رو دانلود کنه و تازه بعد از اینکه کامپوننت رو رندر کرد بیاد fetch کردن رو شروع کنه.</p><p>حالا فرض کنید روتی که اون کامپوننت توش قرار داره lazy load هم شده باشه:</p><p>دریافت باندل spa -> دریافت باندل روت فعلی -> رندر کامپوننت -> اجرای useEffect و آغاز fetch</p><p>یا مثلا فرض کنید یه روت private داریم و قبل از لود صفحه باید اطلاعات کاربر فعلی رو دریافت کنیم و تعیین کنیم که آیا کاربر اجازه دسترسی به روت رو داره یا نه:</p><p>دریافت باندل spa -> دریافت باندل روت فعلی -> دریافت اطلاعات کاربر -> رندر کامپوننت -> اجرای useEffect و آغاز fetch</p><p>تو این حالت تا زمانی که کامپوننت مسئول دریافت اطلاعات کاربر (والد) دیتای خودش رو دریافت نکرده باشه کامپوننت صفحه (فرزند) نمی‌تونه شروع به دریافت دیتای خودش کنه چون هنوز رندر نشده:</p><astro-island uid="vIczp" component-url="/fetch-on-render-mock.a83c1f07.js" component-export="default" renderer-url="/client.fddb5967.js" props="{}" ssr="" client="visible" opts="{&quot;name&quot;:&quot;FetchOnRenderMock&quot;,&quot;value&quot;:true}" await-children=""><div class="preview-wrapper w-full rounded-md relative"><div class="preview rounded-md flex flex-col min-h-[6rem] h-full w-full items-center gap-2 border bg-top p-4"><div class="mockup-window flex flex-col border w-full"><div class="w-full flex gap-4 justify-between items-center p-4 pt-0" dir="rtl"><div class="flex gap-2"><div class="h-3 w-3 bg-[#3E485F] rounded-full"></div><div class="h-3 w-3 bg-[#3E485F] rounded-full"></div><div class="h-3 w-3 bg-[#3E485F] rounded-full"></div></div><button title="بارگذاری مجدد"><svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" color="rgba(179, 197, 239, 0.8)" style="color:rgba(179, 197, 239, 0.8)" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><polyline points="1 4 1 10 7 10"></polyline><polyline points="23 20 23 14 17 14"></polyline><path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"></path></svg></button></div><div class="mockup-inner w-full overflow-auto"><div class="p-5 text-gray-800"><div>در حال دریافت اطلاعات کاربر...</div></div></div></div></div></div></astro-island><p>به این حالت میگن request waterfall و همونطور که واضحه عملکرد خیلی خوبی نداره، خصوصا اینکه این ریکوئست‌ها سمت کلاینت داره اتفاق می‌افته و latency بالایی ممکنه داشته باشه.</p><p>در واقع کتابخونه‌هایی مثل react query و swr پشت پرده یه جورایی در حال استفاده از همین useEffect هستن و یه سری داستان‌ها مثل caching ،error handling ،race condition و… رو هم هندل می‌کنن.</p><p>از اونجایی که کسی دوست نداره چرخ رو از اول اختراع کنه معمولا همه میریم سراغ این ابزارها تا هم کارمون راحت‌تر بشه و هم باگ‌های کمتری بنویسیم.</p><h2 id="fetch-then-render">Fetch-then-render</h2><p>تو این الگو ما میایم خارج از کامپوننت ریکوئست میزنیم و تا زمانی که پاسخی از سرور دریافت نکنیم کامپوننت مورد نظر رو رندر نمی‌کنیم.</p><p>شروع fetch -> اتمام fetch -> رندر</p><p>این کار معمولا در سطح روت انجام میشه مثلا تو nextjs در حال حاضر getServerSideProps رو داریم که میایم سمت سرور اول دیتا رو دریافت می‌کنیم و بعد به کامپوننت مربوط به صفحه پاسش می‌دیم:</p>
+<figure class="code-snippet lang-jsx">
+  <figcaption class="header" dir="ltr">
+    
+  </figcaption>
+  <pre class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color:#FF7B72">function</span><span style="color:#C9D1D9"> </span><span style="color:#D2A8FF">Page</span><span style="color:#C9D1D9">({ </span><span style="color:#FFA657">data</span><span style="color:#C9D1D9"> }) {</span></span>
+<span class="line"><span style="color:#C9D1D9">  </span><span style="color:#8B949E">// Render data...</span></span>
+<span class="line"><span style="color:#C9D1D9">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8B949E">// This gets called on every request</span></span>
+<span class="line"><span style="color:#FF7B72">export</span><span style="color:#C9D1D9"> </span><span style="color:#FF7B72">async</span><span style="color:#C9D1D9"> </span><span style="color:#FF7B72">function</span><span style="color:#C9D1D9"> </span><span style="color:#D2A8FF">getServerSideProps</span><span style="color:#C9D1D9">() {</span></span>
+<span class="line"><span style="color:#C9D1D9">  </span><span style="color:#8B949E">// Fetch all the data for the page</span></span>
+<span class="line"><span style="color:#C9D1D9">  </span><span style="color:#FF7B72">const</span><span style="color:#C9D1D9"> [</span><span style="color:#79C0FF">data</span><span style="color:#C9D1D9">, </span><span style="color:#79C0FF">someOtherData</span><span style="color:#C9D1D9">] </span><span style="color:#FF7B72">=</span><span style="color:#C9D1D9"> </span><span style="color:#FF7B72">await</span><span style="color:#C9D1D9"> </span><span style="color:#79C0FF">Promise</span><span style="color:#C9D1D9">.</span><span style="color:#D2A8FF">all</span><span style="color:#C9D1D9">([</span></span>
+<span class="line"><span style="color:#C9D1D9">    </span><span style="color:#D2A8FF">getData</span><span style="color:#C9D1D9">(),</span></span>
+<span class="line"><span style="color:#C9D1D9">    </span><span style="color:#D2A8FF">getSomeOtherData</span><span style="color:#C9D1D9">()</span></span>
+<span class="line"><span style="color:#C9D1D9">  ])</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#C9D1D9">  </span><span style="color:#8B949E">// Pass all the data to the page via props</span></span>
+<span class="line"><span style="color:#C9D1D9">  </span><span style="color:#FF7B72">return</span><span style="color:#C9D1D9"> { props: { data, someOtherData } }</span></span>
+<span class="line"><span style="color:#C9D1D9">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">export</span><span style="color:#FFA657"> </span><span style="color:#FF7B72">default</span><span style="color:#FFA657"> </span><span style="color:#C9D1D9">Page</span></span></code></pre>
+</figure><p>کاری که تو react router dom نسخه 6.4 هم انجام شده و برای هر روت می‌تونیم یه loader بنویسیم که بیاد و قبل از اینکه چیزی رو رندر کنه دیتای مورد نیاز صفحه رو دریافت کنه که البته سمت کلاینت اتفاق می‌افته:</p>
+<figure class="code-snippet lang-jsx">
+  <figcaption class="header" dir="ltr">
+    
+  </figcaption>
+  <pre class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color:#C9D1D9">&lt;</span><span style="color:#7EE787">Route</span></span>
+<span class="line"><span style="color:#C9D1D9">  </span><span style="color:#79C0FF">path</span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF">&quot;/some-page&quot;</span></span>
+<span class="line"><span style="color:#C9D1D9">  </span><span style="color:#79C0FF">loader</span><span style="color:#FF7B72">={async</span><span style="color:#C9D1D9"> () </span><span style="color:#FF7B72">=&gt;</span><span style="color:#C9D1D9"> {</span></span>
+<span class="line"><span style="color:#C9D1D9">    </span><span style="color:#8B949E">// loaders can be async functions</span></span>
+<span class="line"><span style="color:#C9D1D9">    </span><span style="color:#FF7B72">const</span><span style="color:#C9D1D9"> [</span><span style="color:#79C0FF">data</span><span style="color:#C9D1D9">, </span><span style="color:#79C0FF">someOtherData</span><span style="color:#C9D1D9">] </span><span style="color:#FF7B72">=</span><span style="color:#C9D1D9"> </span><span style="color:#FF7B72">await</span><span style="color:#C9D1D9"> </span><span style="color:#79C0FF">Promise</span><span style="color:#C9D1D9">.</span><span style="color:#D2A8FF">all</span><span style="color:#C9D1D9">([</span></span>
+<span class="line"><span style="color:#C9D1D9">      </span><span style="color:#D2A8FF">getData</span><span style="color:#C9D1D9">(),</span></span>
+<span class="line"><span style="color:#C9D1D9">      </span><span style="color:#D2A8FF">getSomeOtherData</span><span style="color:#C9D1D9">()</span></span>
+<span class="line"><span style="color:#C9D1D9">    ])</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#C9D1D9">    </span><span style="color:#FF7B72">return</span><span style="color:#C9D1D9"> {data, someOtherData};</span></span>
+<span class="line"><span style="color:#C9D1D9">  }</span><span style="color:#FF7B72">}</span></span>
+<span class="line"><span style="color:#C9D1D9">  </span><span style="color:#79C0FF">element</span><span style="color:#FF7B72">={</span><span style="color:#C9D1D9">&lt;</span><span style="color:#7EE787">SomePage</span><span style="color:#C9D1D9"> /&gt;</span><span style="color:#FF7B72">}</span></span>
+<span class="line"><span style="color:#C9D1D9">&gt;</span></span></code></pre>
+</figure><p>و بعد داخل کامپوننت صفحه به دیتا دسترسی داریم:</p>
+<figure class="code-snippet lang-jsx">
+  <figcaption class="header" dir="ltr">
+    
+  </figcaption>
+  <pre class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color:#FF7B72">function</span><span style="color:#C9D1D9"> </span><span style="color:#D2A8FF">SomePage</span><span style="color:#C9D1D9">() {</span></span>
+<span class="line"><span style="color:#C9D1D9">  </span><span style="color:#8B949E">// data from &lt;Route path=&quot;/some-page&quot;&gt;</span></span>
+<span class="line"><span style="color:#C9D1D9">  </span><span style="color:#FF7B72">const</span><span style="color:#C9D1D9"> {</span><span style="color:#79C0FF">data</span><span style="color:#C9D1D9">, </span><span style="color:#79C0FF">someOtherData</span><span style="color:#C9D1D9">} </span><span style="color:#FF7B72">=</span><span style="color:#C9D1D9"> </span><span style="color:#D2A8FF">useLoaderData</span><span style="color:#C9D1D9">();</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#C9D1D9">  </span><span style="color:#8B949E">// Render data...</span></span>
+<span class="line"><span style="color:#C9D1D9">}</span></span></code></pre>
+</figure><p>در واقع چون در سطح روت این اتفاق می‌افته ما می‌تونیم قبل از اینکه حتی کامپوننت مربوط به صفحه لود بشه درخواست fetch رو شروع کنیم.</p><p>نقطه ضعفی که این الگو داره  اینه که تا همه‌چی fetch نشه هیچی نشون داده نمیشه:</p><astro-island uid="ZvRvou" component-url="/fetch-then-render-mock.fb88214c.js" component-export="default" renderer-url="/client.fddb5967.js" props="{}" ssr="" client="visible" opts="{&quot;name&quot;:&quot;FetchThenRenderMock&quot;,&quot;value&quot;:true}" await-children=""><div class="preview-wrapper w-full rounded-md relative"><div class="preview rounded-md flex flex-col min-h-[6rem] h-full w-full items-center gap-2 border bg-top p-4"><div class="mockup-window flex flex-col border w-full"><div class="w-full flex gap-4 justify-between items-center p-4 pt-0" dir="rtl"><div class="flex gap-2"><div class="h-3 w-3 bg-[#3E485F] rounded-full"></div><div class="h-3 w-3 bg-[#3E485F] rounded-full"></div><div class="h-3 w-3 bg-[#3E485F] rounded-full"></div></div><button title="بارگذاری مجدد"><svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" color="rgba(179, 197, 239, 0.8)" style="color:rgba(179, 197, 239, 0.8)" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><polyline points="1 4 1 10 7 10"></polyline><polyline points="23 20 23 14 17 14"></polyline><path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"></path></svg></button></div><div class="mockup-inner w-full overflow-auto"><div class="p-5 text-gray-800"></div></div></div></div></div></astro-island><p>با فرض اینکه api محصول در عرض ۱ ثانیه و api نظرات در عرض ۲ ثانیه پاسخ بده:
+توی این الگو نهایتا می‌تونیم در عرض ۲ ثانیه صفحه رو به کاربر نشون بدیم، یعنی به اندازه کندترین درخواست‌مون.</p><h2 id="render-as-you-fetch">Render-as-you-fetch</h2><p>این الگو می‌گه اول درخواست fetch رو بفرست اما صبر نکن تا پاسخ بیاد و رندر کردن صفحه رو بلافاصله شروع کن.</p><p>شروع fetch -> رندر -> اتمام fetch -> ری‌رندر</p><p>در واقع suspense به ما کمک می‌کنه تا به صورت declarative تا زمانی که دیتای کامپوننت دریافت نشده به جاش یه حالت لودینگ رندر کنیم و به محض اینکه درخواست fetch-مون resolve میشه کامپوننت اصلی رندر بشه.</p><p>نقطه ضعف getServerSideProps رو یادتونه؟ تا همه درخواست‌ها resolved نشده بودن صفحه رندر نمی‌شد، خب react router dom این نقطه ضعف رو نداره چون می‌تونیم درخواست‌های داخل loader رو به انتخاب خودمون به تعویق بندازیم:</p>
+<figure class="code-snippet lang-jsx">
+  <figcaption class="header" dir="ltr">
+    
+  </figcaption>
+  <pre class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color:#C9D1D9">&lt;</span><span style="color:#7EE787">Route</span></span>
+<span class="line"><span style="color:#C9D1D9">  </span><span style="color:#79C0FF">path</span><span style="color:#FF7B72">=</span><span style="color:#A5D6FF">&quot;/product/:productId&quot;</span></span>
+<span class="line"><span style="color:#C9D1D9">  </span><span style="color:#79C0FF">loader</span><span style="color:#FF7B72">={async</span><span style="color:#C9D1D9"> ({ </span><span style="color:#FFA657">params</span><span style="color:#C9D1D9"> }) </span><span style="color:#FF7B72">=&gt;</span><span style="color:#C9D1D9"> {</span></span>
+<span class="line"><span style="color:#C9D1D9">    </span><span style="color:#FF7B72">const</span><span style="color:#C9D1D9"> </span><span style="color:#79C0FF">comments</span><span style="color:#C9D1D9"> </span><span style="color:#FF7B72">=</span><span style="color:#C9D1D9"> </span><span style="color:#D2A8FF">getProductComments</span><span style="color:#C9D1D9">(params.productId);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#C9D1D9">    </span><span style="color:#8B949E">// the product, however, *is* awaited</span></span>
+<span class="line"><span style="color:#C9D1D9">    </span><span style="color:#FF7B72">const</span><span style="color:#C9D1D9"> </span><span style="color:#79C0FF">product</span><span style="color:#C9D1D9"> </span><span style="color:#FF7B72">=</span><span style="color:#C9D1D9"> </span><span style="color:#FF7B72">await</span><span style="color:#C9D1D9"> </span><span style="color:#D2A8FF">getProduct</span><span style="color:#C9D1D9">(params.productId);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#C9D1D9">    </span><span style="color:#8B949E">// defer enables suspense for the un-awaited promises</span></span>
+<span class="line"><span style="color:#C9D1D9">    </span><span style="color:#FF7B72">return</span><span style="color:#C9D1D9"> </span><span style="color:#D2A8FF">defer</span><span style="color:#C9D1D9">({ product, comments });</span></span>
+<span class="line"><span style="color:#C9D1D9">  }</span><span style="color:#FF7B72">}</span></span>
+<span class="line"><span style="color:#C9D1D9">  </span><span style="color:#79C0FF">element</span><span style="color:#FF7B72">={</span><span style="color:#C9D1D9">&lt;</span><span style="color:#7EE787">SomePage</span><span style="color:#C9D1D9"> /&gt;</span><span style="color:#FF7B72">}</span></span>
+<span class="line"><span style="color:#C9D1D9">&gt;</span></span></code></pre>
+</figure><p>داخل کامپوننت صفحه:</p>
+<figure class="code-snippet lang-jsx">
+  <figcaption class="header" dir="ltr">
+    
+  </figcaption>
+  <pre class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color:#FF7B72">function</span><span style="color:#C9D1D9"> </span><span style="color:#D2A8FF">Products</span><span style="color:#C9D1D9">() {</span></span>
+<span class="line"><span style="color:#C9D1D9">  </span><span style="color:#FF7B72">const</span><span style="color:#C9D1D9"> { </span><span style="color:#79C0FF">product</span><span style="color:#C9D1D9">, </span><span style="color:#79C0FF">comments</span><span style="color:#C9D1D9"> } </span><span style="color:#FF7B72">=</span><span style="color:#C9D1D9"> </span><span style="color:#D2A8FF">useLoaderData</span><span style="color:#C9D1D9">();</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#C9D1D9">  </span><span style="color:#FF7B72">return</span><span style="color:#C9D1D9"> (</span></span>
+<span class="line"><span style="color:#C9D1D9">    &lt;</span><span style="color:#7EE787">div</span><span style="color:#C9D1D9">&gt;</span></span>
+<span class="line"><span style="color:#C9D1D9">      &lt;</span><span style="color:#7EE787">ProductDescription</span><span style="color:#C9D1D9"> </span><span style="color:#79C0FF">issue</span><span style="color:#FF7B72">={</span><span style="color:#C9D1D9">issue</span><span style="color:#FF7B72">}</span><span style="color:#C9D1D9"> /&gt;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#C9D1D9">      </span><span style="color:#FF7B72">{</span><span style="color:#8B949E">/* Suspense provides the placeholder fallback */</span><span style="color:#FF7B72">}</span></span>
+<span class="line"><span style="color:#C9D1D9">      &lt;</span><span style="color:#7EE787">Suspense</span><span style="color:#C9D1D9"> </span><span style="color:#79C0FF">fallback</span><span style="color:#FF7B72">={</span><span style="color:#C9D1D9">&lt;</span><span style="color:#7EE787">LoadingSpinner</span><span style="color:#C9D1D9"> /&gt;</span><span style="color:#FF7B72">}</span><span style="color:#C9D1D9">&gt;</span></span>
+<span class="line"><span style="color:#C9D1D9">        </span><span style="color:#FF7B72">{</span><span style="color:#8B949E">/* Await manages the deferred data (promise) */</span><span style="color:#FF7B72">}</span></span>
+<span class="line"><span style="color:#C9D1D9">        &lt;</span><span style="color:#7EE787">Await</span><span style="color:#C9D1D9"> </span><span style="color:#79C0FF">resolve</span><span style="color:#FF7B72">={</span><span style="color:#C9D1D9">comments</span><span style="color:#FF7B72">}</span><span style="color:#C9D1D9">&gt;</span></span>
+<span class="line"><span style="color:#C9D1D9">          </span><span style="color:#FF7B72">{</span><span style="color:#8B949E">/* this calls back when the data is resolved */</span><span style="color:#FF7B72">}</span></span>
+<span class="line"><span style="color:#C9D1D9">          </span><span style="color:#FF7B72">{</span><span style="color:#C9D1D9">(</span><span style="color:#FFA657">resolvedComments</span><span style="color:#C9D1D9">) </span><span style="color:#FF7B72">=&gt;</span><span style="color:#C9D1D9"> (</span></span>
+<span class="line"><span style="color:#C9D1D9">            &lt;</span><span style="color:#7EE787">ProductComments</span><span style="color:#C9D1D9"> </span><span style="color:#79C0FF">comments</span><span style="color:#FF7B72">={</span><span style="color:#C9D1D9">resolvedComments</span><span style="color:#FF7B72">}</span><span style="color:#C9D1D9"> /&gt;</span></span>
+<span class="line"><span style="color:#C9D1D9">          )</span><span style="color:#FF7B72">}</span></span>
+<span class="line"><span style="color:#C9D1D9">        &lt;/</span><span style="color:#7EE787">Await</span><span style="color:#C9D1D9">&gt;</span></span>
+<span class="line"><span style="color:#C9D1D9">      &lt;/</span><span style="color:#7EE787">Suspense</span><span style="color:#C9D1D9">&gt;</span></span>
+<span class="line"><span style="color:#C9D1D9">    &lt;/</span><span style="color:#7EE787">div</span><span style="color:#C9D1D9">&gt;</span></span>
+<span class="line"><span style="color:#C9D1D9">  );</span></span>
+<span class="line"><span style="color:#C9D1D9">}</span></span></code></pre>
+</figure><p>اگه هم به هر دلیلی دوست ندارید از render props استفاده کنید می‌تونید از هوک useAsyncValue مقدار resolve شده رو دریافت کنید:</p>
+<figure class="code-snippet lang-jsx">
+  <figcaption class="header" dir="ltr">
+    
+  </figcaption>
+  <pre class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color:#FF7B72">function</span><span style="color:#C9D1D9"> </span><span style="color:#D2A8FF">ProductComments</span><span style="color:#C9D1D9">() {</span></span>
+<span class="line"><span style="color:#C9D1D9">  </span><span style="color:#FF7B72">const</span><span style="color:#C9D1D9"> </span><span style="color:#79C0FF">comments</span><span style="color:#C9D1D9"> </span><span style="color:#FF7B72">=</span><span style="color:#C9D1D9"> </span><span style="color:#D2A8FF">useAsyncValue</span><span style="color:#C9D1D9">();</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#C9D1D9">  </span><span style="color:#FF7B72">return</span><span style="color:#C9D1D9"> &lt;</span><span style="color:#7EE787">div</span><span style="color:#C9D1D9">&gt;</span><span style="color:#FF7B72">{</span><span style="color:#8B949E">/* ... */</span><span style="color:#FF7B72">}</span><span style="color:#C9D1D9">&lt;/</span><span style="color:#7EE787">div</span><span style="color:#C9D1D9">&gt;;</span></span>
+<span class="line"><span style="color:#C9D1D9">}</span></span></code></pre>
+</figure><p>توجه کنید که اگه صلاح می‌دیدیم، می‌تونستیم برای محصول هم مثل نظرات از suspense استفاده کنیم و کاملا دست خودمونه.</p><p>در واقع می‌تونیم دیتایِ قسمت‌هایی از اپلیکشن‌مون که کم‌تر برامون مهم هستن رو صرفا درخواست بدیم اما صبر نکنیم تا کامل دریافت بشن و موقتا به جاش با استفاده از suspense یه جایگزین رندر کنیم.</p><p>تو سناریوی بالا برای محصول و نظرات به شکل همزمان درخواست fetch ارسال میشه اما صفحه زمانی رندر میشه که دیتای مربوط به محصول دریافت شده باشه اما منتظر دیتای قسمت نظرات نمی‌مونه و در واقع قسمت نظرات در ابتدا بدون دیتا و در حالت لودینگ رندر میشه:</p><astro-island uid="2u7stM" component-url="/render-as-you-fetch-mock.8ac2fccb.js" component-export="default" renderer-url="/client.fddb5967.js" props="{}" ssr="" client="visible" opts="{&quot;name&quot;:&quot;RenderAsYouFetchMock&quot;,&quot;value&quot;:true}" await-children=""><div class="preview-wrapper w-full rounded-md relative"><div class="preview rounded-md flex flex-col min-h-[6rem] h-full w-full items-center gap-2 border bg-top p-4"><div class="mockup-window flex flex-col border w-full"><div class="w-full flex gap-4 justify-between items-center p-4 pt-0" dir="rtl"><div class="flex gap-2"><div class="h-3 w-3 bg-[#3E485F] rounded-full"></div><div class="h-3 w-3 bg-[#3E485F] rounded-full"></div><div class="h-3 w-3 bg-[#3E485F] rounded-full"></div></div><button title="بارگذاری مجدد"><svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" color="rgba(179, 197, 239, 0.8)" style="color:rgba(179, 197, 239, 0.8)" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><polyline points="1 4 1 10 7 10"></polyline><polyline points="23 20 23 14 17 14"></polyline><path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"></path></svg></button></div><div class="mockup-inner w-full overflow-auto"><div class="p-5 text-gray-800"></div></div></div></div></div></astro-island><p>با فرض اینکه api محصول در عرض ۱ ثانیه و api نظرات در عرض ۲ ثانیه پاسخ بده: توی این الگو بعد از ۱ ثانیه صفحه لود میشه و ۱ ثانیه بعد از لود شدن صفحه قسمت نظرات لود میشه.</p><p>peace out</p>
+            </article>
+          </main>
+          <div class="py-8 pr-4 text-[rgba(179,197,239,0.5)]">
+            <a href="/blog">&lt;- بازگشت</a>
+          </div>
+        </div>
+        <aside id="editor" class="md:fixed md:left-0 md:top-0 md:bottom-0 md:h-full md:w-1/2 w-full snap-start">
+          <script>(self.Astro=self.Astro||{}).only=t=>{(async()=>await(await t())())()},window.dispatchEvent(new Event("astro:only"));</script><astro-island uid="Z1gKOm3" component-url="/index.b29b0254.js" component-export="default" renderer-url="/client.fddb5967.js" props="{&quot;initStore&quot;:[0,{&quot;files&quot;:[0,{}]}],&quot;externalResources&quot;:[1,&quot;[[0,\&quot;https://cdn.tailwindcss.com\&quot;]]&quot;],&quot;slot&quot;:[0,&quot;playground&quot;]}" ssr="" client="only" opts="{&quot;name&quot;:&quot;SidePlayground&quot;,&quot;value&quot;:&quot;react&quot;}"></astro-island>
+        </aside>
+      </div>
+    </div>
+  </body></html>

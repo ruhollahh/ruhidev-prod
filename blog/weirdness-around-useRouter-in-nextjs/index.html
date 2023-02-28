@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+  <head>
+    <!-- Google tag (gtag.js) --><script async src="https://www.googletagmanager.com/gtag/js?id=G-GR2RVT9K79"></script>
+
+
+<!-- Global Metadata --><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<meta name="generator" content="Astro v1.8.0">
+
+<!-- Primary Meta Tags -->
+<title>بررسی رفتار عجیب useRouter در Next.js</title>
+<meta name="title" content="بررسی رفتار عجیب useRouter در Next.js">
+<meta name="description" content="تا حالا شده از useRouter استفاده کنی و عملکردش برات غیر منتظره باشه؟ تو این پست می‌خواهیم دقیقا همین عملکرد عجیبش رو بررسی کنیم.">
+
+<meta name="google-site-verification" content="zHY3_g7-iPbCh2aQVzINBG2yX2ZK5g2PUuW4vrUutnw">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://ruhidev.com/blog/weirdness-around-useRouter-in-nextjs/">
+<meta property="og:title" content="بررسی رفتار عجیب useRouter در Next.js">
+<meta property="og:description" content="تا حالا شده از useRouter استفاده کنی و عملکردش برات غیر منتظره باشه؟ تو این پست می‌خواهیم دقیقا همین عملکرد عجیبش رو بررسی کنیم.">
+<meta property="og:image" content="https://res.cloudinary.com/ruhollahh/image/upload/v1675451308/ruhidev/But-why-meme-generator-but-why-84103d_bo21y4.jpg">
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image">
+<meta property="twitter:url" content="https://ruhidev.com/blog/weirdness-around-useRouter-in-nextjs/">
+<meta property="twitter:title" content="بررسی رفتار عجیب useRouter در Next.js">
+<meta property="twitter:description" content="تا حالا شده از useRouter استفاده کنی و عملکردش برات غیر منتظره باشه؟ تو این پست می‌خواهیم دقیقا همین عملکرد عجیبش رو بررسی کنیم.">
+<meta property="twitter:image" content="https://res.cloudinary.com/ruhollahh/image/upload/v1675451308/ruhidev/But-why-meme-generator-but-why-84103d_bo21y4.jpg">
+
+    <link rel="stylesheet" href="/theme.css">
+  <link rel="stylesheet" href="/assets/blog.d5a0ad07.css" />
+<link rel="stylesheet" href="/assets/index.241c70ab.css" /><script type="module">window.dataLayer=window.dataLayer||[];function a(){dataLayer.push(arguments)}a("js",new Date);a("config","G-GR2RVT9K79");
+</script></head>
+
+  <body>
+    <div class="max-w-[64rem] mx-auto px-5">
+      <a href="/blog"><div class="text-xl pt-8 text-[rgba(179,197,239,0.5)]">پست‌های بلاگ</div></a>
+      <main>
+        <article class="prose prose-lg lg:prose-xl pb-10 max-w-none">
+          <div>
+  <h2 class="m-0 p-0 font-bold" style="margin-block-end: 0.5rem;; margin-block-start: 1rem;">
+    بررسی رفتار عجیب useRouter در Next.js
+  </h2>
+  <time datetime="Fri Feb 03 2023 00:00:00 GMT+0330 (Iran Standard Time)">1 ماه پیش</time>
+</div>
+          <p>فرض کنید یه صفحه تایید پرداخت داریم و کاربر بعد از پرداخت همراه با id فاکتور به این صفحه انتقال داده میشه.</p><p>آدرس این صفحه یه همچین چیزیه: payment/verify/?invoiceId=someString</p><p>این روت توسط کامپوننتی به نام PaymentVerifyPage داره هندل میشه.</p><p>به نظرتون invoiceId در قطعه کد زیر چه نوع مقادیری میتونه داشته باشه؟</p>
+<figure class="code-snippet lang-jsx">
+  <figcaption class="header" dir="ltr">
+    
+  </figcaption>
+  <pre class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color:#FF7B72">export</span><span style="color:#FFA657"> </span><span style="color:#FF7B72">default</span><span style="color:#FFA657"> </span><span style="color:#FF7B72">function</span><span style="color:#FFA657"> </span><span style="color:#D2A8FF">PaymentVerifyPage</span><span style="color:#FFA657">() </span><span style="color:#C9D1D9">{</span></span>
+<span class="line"><span style="color:#C9D1D9">  </span><span style="color:#FF7B72">const</span><span style="color:#C9D1D9"> { </span><span style="color:#79C0FF">query</span><span style="color:#C9D1D9"> } </span><span style="color:#FF7B72">=</span><span style="color:#C9D1D9"> </span><span style="color:#D2A8FF">useRouter</span><span style="color:#C9D1D9">();</span></span>
+<span class="line"><span style="color:#C9D1D9">  </span><span style="color:#FF7B72">const</span><span style="color:#C9D1D9"> { </span><span style="color:#79C0FF">invoiceId</span><span style="color:#C9D1D9"> } </span><span style="color:#FF7B72">=</span><span style="color:#C9D1D9"> query;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#C9D1D9">  console.</span><span style="color:#D2A8FF">log</span><span style="color:#C9D1D9">(</span><span style="color:#A5D6FF">&quot;invoiceId:&quot;</span><span style="color:#C9D1D9">, invoiceId) </span><span style="color:#8B949E">// what am i?</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#C9D1D9">  </span><span style="color:#FF7B72">return</span><span style="color:#C9D1D9"> (</span></span>
+<span class="line"><span style="color:#C9D1D9">    &lt;</span><span style="color:#7EE787">div</span><span style="color:#C9D1D9">&gt;</span></span>
+<span class="line"><span style="color:#C9D1D9">      Here we will show the payment status.</span></span>
+<span class="line"><span style="color:#C9D1D9">    &lt;/</span><span style="color:#7EE787">div</span><span style="color:#C9D1D9">&gt;</span></span>
+<span class="line"><span style="color:#C9D1D9">  );</span></span>
+<span class="line"><span style="color:#C9D1D9">}</span></span></code></pre>
+</figure><p>اگه داخل ادیتور روش هاور کنید بهتون میگه تایپش می‌تونه رشته یا آرایه‌ای از رشته‌ها باشه که اشتباه نیست اما درست هم نیست :)</p><div class="mx-auto w-[413px] max-w-full"><div class="isolate relative overflow-hidden w-full h-full">
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAABCAIAAAB2XpiaAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAFUlEQVR4nGPwja29+uR/05wtDIJKACtMBeWjalj+AAAAAElFTkSuQmCC" alt="" class="z-[-1] absolute scale-150 filter blur-2xl w-full h-full">
+    <picture>
+      <source type="image/avif" srcset="
+            https://res.cloudinary.com/ruhollahh/image/upload/w_578/v1675445580/ruhidev/Screenshot_from_2023-02-03_16-36-04_rbkuyp.avif 1x,
+            https://res.cloudinary.com/ruhollahh/image/upload/w_826/v1675445580/ruhidev/Screenshot_from_2023-02-03_16-36-04_rbkuyp.avif 2x,
+            https://res.cloudinary.com/ruhollahh/image/upload/w_1239/v1675445580/ruhidev/Screenshot_from_2023-02-03_16-36-04_rbkuyp.avif 3x
+          "><source type="image/webp" srcset="
+            https://res.cloudinary.com/ruhollahh/image/upload/w_578/v1675445580/ruhidev/Screenshot_from_2023-02-03_16-36-04_rbkuyp.webp 1x,
+            https://res.cloudinary.com/ruhollahh/image/upload/w_826/v1675445580/ruhidev/Screenshot_from_2023-02-03_16-36-04_rbkuyp.webp 2x,
+            https://res.cloudinary.com/ruhollahh/image/upload/w_1239/v1675445580/ruhidev/Screenshot_from_2023-02-03_16-36-04_rbkuyp.webp 3x
+          ">
+      <source type="image/png" srcset="
+          https://res.cloudinary.com/ruhollahh/image/upload/w_578/v1675445580/ruhidev/Screenshot_from_2023-02-03_16-36-04_rbkuyp.png 1x,
+          https://res.cloudinary.com/ruhollahh/image/upload/w_826/v1675445580/ruhidev/Screenshot_from_2023-02-03_16-36-04_rbkuyp.png 2x,
+          https://res.cloudinary.com/ruhollahh/image/upload/w_1239/v1675445580/ruhidev/Screenshot_from_2023-02-03_16-36-04_rbkuyp.png 3x
+        ">
+      <img src="https://res.cloudinary.com/ruhollahh/image/upload/w_578/v1675445580/ruhidev/Screenshot_from_2023-02-03_16-36-04_rbkuyp.png" class="w-full h-full object-cover text-transparent" style="object-position: center;" alt="" loading="lazy" decoding="async">
+    </picture>
+</div></div><p>در واقع بار اولی که کاربر صفحه رو درخواست می‌کنه مقدار پارامترها در ابتدا undefined هستند و بعد بلافاصله با مقداری که در url وجود داره سینک میشن.</p><p>این مورد فقط در ریکوئست‌ اول یا شرایطی که منجر به ریلود کامل صفحه میشه اتفاق می‌افته.</p><p>یعنی اگه کاربر از طریق کامپوننت Link وارد صفحه بشه و url شامل پارامتر مورد نظر باشه در این صورت undefined دریافت نمی‌کنیم.</p><p>خب به نظرتون قضیه چه؟ چرا تو ریکوئست اول برای یک لحظه کوتاه به پارامتر‌ها دسترسی نداریم؟</p><p>جواب اینه که در واقع به پارامتر‌ها دسترسی داریم اما next عمدا مقدار query رو برابر با یک آبجکت خالی قرار میده و بعد از این که همه چیز رندر شد مقدار query رو با url سینک میکنه مجددا همه چیز رو رندر می‌کنه!</p><p>برای اینکه بفهمیم چرا این اتفاق رخ میده اول باید با مفهوم hydration آشنا بشیم.</p><h2 id="hydration">Hydration</h2><p>داستان از این قراره که next سمت سرور (SSR) و یا موقع بیلد (SSG) صفحه‌هارو pre-render و سپس به html تبدیل می‌کنه.</p><p>این قضیه باعث میشه که کاربر در ریکوئست اول یه صفحه ساده html و تقریبا تعامل ناپذیر دریافت کنه، چرا؟ چون هنوز کدهای جاوااسکریپت لود نشدن.</p><p>این خیلی چیز خوبیه که کاربر در ابتدا با html سروکار داره چون html برخلاف جاوااسکریپت استریم میشه و مرورگر از اولین packet-ای که دریافت می‌کنه می‌تونه parse و رندر کردن صفحه رو شروع کنه.</p><p>اما همونطور که گفتیم برای اینکه صفحه تعامل پذیر بشه ابتدا باید کدهای جاوااسکریپت لود بشن.</p><p>بعد از اینکه کدهای جاوااسکریپت لود شدن فرایند hydration شروع میشه.</p><p>در این فرایند ری‌اکت برای اولین بار (در مرورگر) صفحه رو رندر می‌کنه و سعی می‌کنه با اتصال event listener ها به مارک‌آپ کنترل صفحه رو به دست بگیره.</p><p>در واقع تو فریمورکی مثل next به اولین رندری که در مرورگر اتفاق می‌افته می‌گیم hydration.</p><p>نکته‌ای که وجود داره اینه که اگه کوچک‌ترین تفاوتی بین چیزی که برای اولین بار در مرورگر رندر شده و چیزی که در سرور و یا هنگام بیلد رندر شده وجود داشته باشه، ری‌اکت بهمون هشدار میده و این موارد رو باگ تلقی می‌کنه.</p><h2 id="مثالی-از-mismatch-در-زمان-hydration">مثالی از mismatch در زمان hydration</h2><p>قطعه کد زیر رو در نظر بگیرید:</p>
+<figure class="code-snippet lang-jsx">
+  <figcaption class="header" dir="ltr">
+    
+  </figcaption>
+  <pre class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color:#FF7B72">export</span><span style="color:#FFA657"> </span><span style="color:#FF7B72">default</span><span style="color:#FFA657"> </span><span style="color:#FF7B72">function</span><span style="color:#FFA657"> </span><span style="color:#D2A8FF">SomePage</span><span style="color:#FFA657">() </span><span style="color:#C9D1D9">{</span></span>
+<span class="line"><span style="color:#C9D1D9">  </span><span style="color:#FF7B72">return</span><span style="color:#C9D1D9"> &lt;</span><span style="color:#7EE787">div</span><span style="color:#C9D1D9">&gt;</span><span style="color:#FF7B72">{typeof</span><span style="color:#C9D1D9"> window </span><span style="color:#FF7B72">===</span><span style="color:#C9D1D9"> </span><span style="color:#A5D6FF">&quot;undefined&quot;</span><span style="color:#C9D1D9"> </span><span style="color:#FF7B72">?</span><span style="color:#C9D1D9"> </span><span style="color:#A5D6FF">&quot;Hello&quot;</span><span style="color:#C9D1D9"> </span><span style="color:#FF7B72">:</span><span style="color:#C9D1D9"> </span><span style="color:#A5D6FF">&quot;Bye&quot;</span><span style="color:#FF7B72">}</span><span style="color:#C9D1D9"> World&lt;/</span><span style="color:#7EE787">div</span><span style="color:#C9D1D9">&gt;;</span></span>
+<span class="line"><span style="color:#C9D1D9">}</span></span></code></pre>
+</figure><p>خروجی این قطعه کد سمت سرور یا هنگام بیلد یه همچین چیزیه:</p>
+<figure class="code-snippet lang-html">
+  <figcaption class="header" dir="ltr">
+    
+  </figcaption>
+  <pre class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color:#C9D1D9">&lt;</span><span style="color:#7EE787">div</span><span style="color:#C9D1D9">&gt;Hello World&lt;/</span><span style="color:#7EE787">div</span><span style="color:#C9D1D9">&gt;</span></span></code></pre>
+</figure><p>واضحه که ما سمت سرور به آبجکت window دسترسی نداریم بنابراین متن «Hello World» برگردونده می‌شه.</p><p>اما همین کد در اولین رندری که سمت مرورگر اتفاق می‌افته خروجی متفاوتی داره:</p>
+<figure class="code-snippet lang-html">
+  <figcaption class="header" dir="ltr">
+    
+  </figcaption>
+  <pre class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color:#C9D1D9">&lt;</span><span style="color:#7EE787">div</span><span style="color:#C9D1D9">&gt;‌Bye World&lt;/</span><span style="color:#7EE787">div</span><span style="color:#C9D1D9">&gt;</span></span></code></pre>
+</figure><p>که خودش باعث خطای زمان اجرا میشه:</p><div class="mx-auto w-[48rem] max-w-full"><div class="isolate relative overflow-hidden w-full h-full">
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAABCAIAAAB2XpiaAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAFUlEQVR4nGPQVFXtbW9//vRpZUUFACIqBilqRMYrAAAAAElFTkSuQmCC" alt="" class="z-[-1] absolute scale-150 filter blur-2xl w-full h-full">
+    <picture>
+      <source type="image/avif" srcset="
+            https://res.cloudinary.com/ruhollahh/image/upload/w_1348/v1675445580/ruhidev/Screenshot_from_2023-02-03_16-39-05_ui3fcg.avif 1x,
+            https://res.cloudinary.com/ruhollahh/image/upload/w_1926/v1675445580/ruhidev/Screenshot_from_2023-02-03_16-39-05_ui3fcg.avif 2x,
+            https://res.cloudinary.com/ruhollahh/image/upload/w_2889/v1675445580/ruhidev/Screenshot_from_2023-02-03_16-39-05_ui3fcg.avif 3x
+          "><source type="image/webp" srcset="
+            https://res.cloudinary.com/ruhollahh/image/upload/w_1348/v1675445580/ruhidev/Screenshot_from_2023-02-03_16-39-05_ui3fcg.webp 1x,
+            https://res.cloudinary.com/ruhollahh/image/upload/w_1926/v1675445580/ruhidev/Screenshot_from_2023-02-03_16-39-05_ui3fcg.webp 2x,
+            https://res.cloudinary.com/ruhollahh/image/upload/w_2889/v1675445580/ruhidev/Screenshot_from_2023-02-03_16-39-05_ui3fcg.webp 3x
+          ">
+      <source type="image/png" srcset="
+          https://res.cloudinary.com/ruhollahh/image/upload/w_1348/v1675445580/ruhidev/Screenshot_from_2023-02-03_16-39-05_ui3fcg.png 1x,
+          https://res.cloudinary.com/ruhollahh/image/upload/w_1926/v1675445580/ruhidev/Screenshot_from_2023-02-03_16-39-05_ui3fcg.png 2x,
+          https://res.cloudinary.com/ruhollahh/image/upload/w_2889/v1675445580/ruhidev/Screenshot_from_2023-02-03_16-39-05_ui3fcg.png 3x
+        ">
+      <img src="https://res.cloudinary.com/ruhollahh/image/upload/w_1348/v1675445580/ruhidev/Screenshot_from_2023-02-03_16-39-05_ui3fcg.png" class="w-full h-full object-cover text-transparent" style="object-position: left;" alt="" loading="lazy" decoding="async">
+    </picture>
+</div></div><h2 id="پشت-پرده-userouter">پشت پرده useRouter</h2><p>خب حالا بریم ببینیم در صفحه‌ای که داخلش از هوک useRouter استفاده شده چی می‌گذره و دقیقا داره چه اتفاقی می‌افته.</p><p>قطعه کد زیر رو در نظر بگیرید:</p>
+<figure class="code-snippet lang-jsx">
+  <figcaption class="header" dir="ltr">
+    
+  </figcaption>
+  <pre class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color:#FF7B72">export</span><span style="color:#FFA657"> </span><span style="color:#FF7B72">default</span><span style="color:#FFA657"> </span><span style="color:#FF7B72">function</span><span style="color:#FFA657"> </span><span style="color:#D2A8FF">SayMyNamePage</span><span style="color:#FFA657">() </span><span style="color:#C9D1D9">{</span></span>
+<span class="line"><span style="color:#C9D1D9">  </span><span style="color:#FF7B72">const</span><span style="color:#C9D1D9"> { </span><span style="color:#79C0FF">query</span><span style="color:#C9D1D9"> } </span><span style="color:#FF7B72">=</span><span style="color:#C9D1D9"> </span><span style="color:#D2A8FF">useRouter</span><span style="color:#C9D1D9">();</span></span>
+<span class="line"><span style="color:#C9D1D9">  </span><span style="color:#FF7B72">const</span><span style="color:#C9D1D9"> { </span><span style="color:#79C0FF">name</span><span style="color:#C9D1D9"> } </span><span style="color:#FF7B72">=</span><span style="color:#C9D1D9"> query;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#C9D1D9">  </span><span style="color:#FF7B72">return</span><span style="color:#C9D1D9"> &lt;</span><span style="color:#7EE787">div</span><span style="color:#C9D1D9">&gt;</span><span style="color:#FF7B72">{</span><span style="color:#C9D1D9">name</span><span style="color:#FF7B72">}</span><span style="color:#C9D1D9">&lt;/</span><span style="color:#7EE787">div</span><span style="color:#C9D1D9">&gt;;</span></span>
+<span class="line"><span style="color:#C9D1D9">}</span></span></code></pre>
+</figure><p>فرض کنید کاربر وارد آدرس sayMyName/?name=ruhi میشه:</p><p>خروجی که از قطعه کد بالا در سرور یا هنگام بیلد تولید میشه یه همچین چیزیه:</p>
+<figure class="code-snippet lang-html">
+  <figcaption class="header" dir="ltr">
+    
+  </figcaption>
+  <pre class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color:#C9D1D9">&lt;</span><span style="color:#7EE787">div</span><span style="color:#C9D1D9">&gt;&lt;/</span><span style="color:#7EE787">div</span><span style="color:#C9D1D9">&gt;</span></span></code></pre>
+</figure><p>این هوک برای استفاده در کلاینت ساخته شده و بدیهیه که در سمت سرور و یا هنگام بیلد از طریق این هوک به مقدار پارامتر‌های url دسترسی نداشته باشیم و مقدارشون undefined باشه.</p><p>* ری‌اکت مقادیری مثل undefined رو نادیده می‌گیره.</p><p>بنابراین طبق چیزایی که در مورد hydration و خطای mismatch یاد گرفتیم منطقیه که سمت کلاینت هم در اولین رندر این مقادیر undefined باشند تا خروجی که به دست میاد با خروجی سرور/بیلد یکی باشه:</p>
+<figure class="code-snippet lang-html">
+  <figcaption class="header" dir="ltr">
+    
+  </figcaption>
+  <pre class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color:#C9D1D9">&lt;</span><span style="color:#7EE787">div</span><span style="color:#C9D1D9">&gt;&lt;/</span><span style="color:#7EE787">div</span><span style="color:#C9D1D9">&gt;</span></span></code></pre>
+</figure><p>در واقع useRouter مجبوره برای اینکه خطای mismatch رخ نده در اولین رندر مقدار query رو برابر با آبجکت خالی قرار بده (دقیقا مثل محیط سرور).</p><p>بلافاصله بعد از اینکه hydration تموم میشه مقادیر router به روزرسانی میشه و صفحه مجددا رندر میشه:</p>
+<figure class="code-snippet lang-html">
+  <figcaption class="header" dir="ltr">
+    
+  </figcaption>
+  <pre class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color:#C9D1D9">&lt;</span><span style="color:#7EE787">div</span><span style="color:#C9D1D9">&gt;ruhi&lt;/</span><span style="color:#7EE787">div</span><span style="color:#C9D1D9">&gt;</span></span></code></pre>
+</figure><h2 id="isready">isReady</h2><p>با کمک مقدار isReady می‌تونیم بفهمیم که آیا مقادیر router در سمت کلاینت بروزرسانی شده‌اند یا خیر:</p>
+<figure class="code-snippet lang-jsx">
+  <figcaption class="header" dir="ltr">
+    
+  </figcaption>
+  <pre class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color:#FF7B72">export</span><span style="color:#FFA657"> </span><span style="color:#FF7B72">default</span><span style="color:#FFA657"> </span><span style="color:#FF7B72">function</span><span style="color:#FFA657"> </span><span style="color:#D2A8FF">SayMyNamePage</span><span style="color:#FFA657">() </span><span style="color:#C9D1D9">{</span></span>
+<span class="line"><span style="color:#C9D1D9">  </span><span style="color:#FF7B72">const</span><span style="color:#C9D1D9"> { </span><span style="color:#79C0FF">query</span><span style="color:#C9D1D9">, </span><span style="color:#79C0FF">isReady</span><span style="color:#C9D1D9"> } </span><span style="color:#FF7B72">=</span><span style="color:#C9D1D9"> </span><span style="color:#D2A8FF">useRouter</span><span style="color:#C9D1D9">();</span></span>
+<span class="line"><span style="color:#C9D1D9">  </span><span style="color:#FF7B72">const</span><span style="color:#C9D1D9"> { </span><span style="color:#79C0FF">name</span><span style="color:#C9D1D9"> } </span><span style="color:#FF7B72">=</span><span style="color:#C9D1D9"> query;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#C9D1D9">  console.</span><span style="color:#D2A8FF">log</span><span style="color:#C9D1D9">(</span><span style="color:#A5D6FF">&quot;isReady:&quot;</span><span style="color:#C9D1D9">, isReady) </span><span style="color:#8B949E">// server: false // client: true | false</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#C9D1D9">  </span><span style="color:#FF7B72">return</span><span style="color:#C9D1D9"> &lt;</span><span style="color:#7EE787">div</span><span style="color:#C9D1D9"> </span><span style="color:#79C0FF">style</span><span style="color:#FF7B72">={</span><span style="color:#C9D1D9">{fontSize: </span><span style="color:#79C0FF">50</span><span style="color:#C9D1D9">}</span><span style="color:#FF7B72">}</span><span style="color:#C9D1D9">&gt;</span><span style="color:#FF7B72">{</span><span style="color:#C9D1D9">name </span><span style="color:#FF7B72">??</span><span style="color:#C9D1D9"> </span><span style="color:#A5D6FF">&quot;no name&quot;</span><span style="color:#FF7B72">}</span><span style="color:#C9D1D9">&lt;/</span><span style="color:#7EE787">div</span><span style="color:#C9D1D9">&gt;;</span></span>
+<span class="line"><span style="color:#C9D1D9">}</span></span></code></pre>
+</figure><p>در واقع مقدار isReady زمانی که url پارامتری نداشته باشه در اولین رندر true هست اما زمانی که داخل url پارامتری وجود داشته باشه مقدار این استیت در رندر اول false و در رندرهای بعدی true خواهد بود.</p><p dir="ltr">/sayMyName:</p><div class="mx-auto w-[48rem] max-w-full"><div class="isolate relative overflow-hidden w-full h-full">
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAACCAIAAADwyuo0AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAHElEQVR4nGOQkpLSAAMDAwOGT58//weDR48eAwBtjw1Ib3inAwAAAABJRU5ErkJggg==" alt="" class="z-[-1] absolute scale-150 filter blur-2xl w-full h-full">
+    <picture>
+      <source type="image/avif" srcset="
+            https://res.cloudinary.com/ruhollahh/image/upload/w_1809/v1675447265/ruhidev/Screenshot_from_2023-02-03_20-21-59_bizy1q.avif 1x,
+            https://res.cloudinary.com/ruhollahh/image/upload/w_2584/v1675447265/ruhidev/Screenshot_from_2023-02-03_20-21-59_bizy1q.avif 2x,
+            https://res.cloudinary.com/ruhollahh/image/upload/w_3876/v1675447265/ruhidev/Screenshot_from_2023-02-03_20-21-59_bizy1q.avif 3x
+          "><source type="image/webp" srcset="
+            https://res.cloudinary.com/ruhollahh/image/upload/w_1809/v1675447265/ruhidev/Screenshot_from_2023-02-03_20-21-59_bizy1q.webp 1x,
+            https://res.cloudinary.com/ruhollahh/image/upload/w_2584/v1675447265/ruhidev/Screenshot_from_2023-02-03_20-21-59_bizy1q.webp 2x,
+            https://res.cloudinary.com/ruhollahh/image/upload/w_3876/v1675447265/ruhidev/Screenshot_from_2023-02-03_20-21-59_bizy1q.webp 3x
+          ">
+      <source type="image/png" srcset="
+          https://res.cloudinary.com/ruhollahh/image/upload/w_1809/v1675447265/ruhidev/Screenshot_from_2023-02-03_20-21-59_bizy1q.png 1x,
+          https://res.cloudinary.com/ruhollahh/image/upload/w_2584/v1675447265/ruhidev/Screenshot_from_2023-02-03_20-21-59_bizy1q.png 2x,
+          https://res.cloudinary.com/ruhollahh/image/upload/w_3876/v1675447265/ruhidev/Screenshot_from_2023-02-03_20-21-59_bizy1q.png 3x
+        ">
+      <img src="https://res.cloudinary.com/ruhollahh/image/upload/w_1809/v1675447265/ruhidev/Screenshot_from_2023-02-03_20-21-59_bizy1q.png" class="w-full h-full object-cover text-transparent" style="object-position: left;" alt="" loading="lazy" decoding="async">
+    </picture>
+</div></div><p dir="ltr">/sayMyName/?name=ruhi:</p><div class="mx-auto w-[48rem] max-w-full"><div class="isolate relative overflow-hidden w-full h-full">
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAACCAIAAADwyuo0AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAH0lEQVR4nGPg4eGRlpERExOTlZVlePb8+X8wuHDxIgBdfAwxA3F+OgAAAABJRU5ErkJggg==" alt="" class="z-[-1] absolute scale-150 filter blur-2xl w-full h-full">
+    <picture>
+      <source type="image/avif" srcset="
+            https://res.cloudinary.com/ruhollahh/image/upload/w_1809/v1675445572/ruhidev/Screenshot_from_2023-02-03_20-22-09_qmwwrr.avif 1x,
+            https://res.cloudinary.com/ruhollahh/image/upload/w_2584/v1675445572/ruhidev/Screenshot_from_2023-02-03_20-22-09_qmwwrr.avif 2x,
+            https://res.cloudinary.com/ruhollahh/image/upload/w_3876/v1675445572/ruhidev/Screenshot_from_2023-02-03_20-22-09_qmwwrr.avif 3x
+          "><source type="image/webp" srcset="
+            https://res.cloudinary.com/ruhollahh/image/upload/w_1809/v1675445572/ruhidev/Screenshot_from_2023-02-03_20-22-09_qmwwrr.webp 1x,
+            https://res.cloudinary.com/ruhollahh/image/upload/w_2584/v1675445572/ruhidev/Screenshot_from_2023-02-03_20-22-09_qmwwrr.webp 2x,
+            https://res.cloudinary.com/ruhollahh/image/upload/w_3876/v1675445572/ruhidev/Screenshot_from_2023-02-03_20-22-09_qmwwrr.webp 3x
+          ">
+      <source type="image/png" srcset="
+          https://res.cloudinary.com/ruhollahh/image/upload/w_1809/v1675445572/ruhidev/Screenshot_from_2023-02-03_20-22-09_qmwwrr.png 1x,
+          https://res.cloudinary.com/ruhollahh/image/upload/w_2584/v1675445572/ruhidev/Screenshot_from_2023-02-03_20-22-09_qmwwrr.png 2x,
+          https://res.cloudinary.com/ruhollahh/image/upload/w_3876/v1675445572/ruhidev/Screenshot_from_2023-02-03_20-22-09_qmwwrr.png 3x
+        ">
+      <img src="https://res.cloudinary.com/ruhollahh/image/upload/w_1809/v1675445572/ruhidev/Screenshot_from_2023-02-03_20-22-09_qmwwrr.png" class="w-full h-full object-cover text-transparent" style="object-position: left;" alt="" loading="lazy" decoding="async">
+    </picture>
+</div></div><p>این قضیه هم دقیقا به همین دلیل رخ میده که next می‌خواد سعی کنه وضعیت رو به حالتی که در سرور داشتیم نزدیک کنه.</p>
+        </article>
+      </main>
+      <div class="pb-8 text-[rgba(179,197,239,0.5)]">
+        <a href="/blog ">&lt;- بازگشت</a>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+  <head>
+    <!-- Google tag (gtag.js) --><script async src="https://www.googletagmanager.com/gtag/js?id=G-GR2RVT9K79"></script>
+
+
+<!-- Global Metadata --><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<meta name="generator" content="Astro v1.8.0">
+
+<!-- Primary Meta Tags -->
+<title>کلوژر در ری‌اکت</title>
+<meta name="title" content="کلوژر در ری‌اکت">
+<meta name="description" content="شاید تا حالا اسم کلوژر رو شنیده باشید و یه چیزایی هم راجع بهش بدونید تو این پست قصد داریم نقش کلوژرها در ری‌اکت رو با هم بررسی کنیم.">
+
+<meta name="google-site-verification" content="zHY3_g7-iPbCh2aQVzINBG2yX2ZK5g2PUuW4vrUutnw">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://ruhidev.com/blog/closures-in-react/">
+<meta property="og:title" content="کلوژر در ری‌اکت">
+<meta property="og:description" content="شاید تا حالا اسم کلوژر رو شنیده باشید و یه چیزایی هم راجع بهش بدونید تو این پست قصد داریم نقش کلوژرها در ری‌اکت رو با هم بررسی کنیم.">
+<meta property="og:image" content="https://res.cloudinary.com/ruhollahh/image/upload/v1676737107/ruhidev/Screenshot_from_2023-02-18_19-47-17_mp4le5.png">
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image">
+<meta property="twitter:url" content="https://ruhidev.com/blog/closures-in-react/">
+<meta property="twitter:title" content="کلوژر در ری‌اکت">
+<meta property="twitter:description" content="شاید تا حالا اسم کلوژر رو شنیده باشید و یه چیزایی هم راجع بهش بدونید تو این پست قصد داریم نقش کلوژرها در ری‌اکت رو با هم بررسی کنیم.">
+<meta property="twitter:image" content="https://res.cloudinary.com/ruhollahh/image/upload/v1676737107/ruhidev/Screenshot_from_2023-02-18_19-47-17_mp4le5.png">
+
+    <link rel="stylesheet" href="/theme.css">
+  <link rel="stylesheet" href="/assets/blog.d5a0ad07.css" />
+<link rel="stylesheet" href="/assets/index.241c70ab.css" /><script type="module">window.dataLayer=window.dataLayer||[];function a(){dataLayer.push(arguments)}a("js",new Date);a("config","G-GR2RVT9K79");
+</script></head>
+
+  <body>
+    <div class="max-w-[64rem] mx-auto px-5">
+      <a href="/blog"><div class="text-xl pt-8 text-[rgba(179,197,239,0.5)]">پست‌های بلاگ</div></a>
+      <main>
+        <article class="prose prose-lg lg:prose-xl pb-10 max-w-none">
+          <div>
+  <h2 class="m-0 p-0 font-bold" style="margin-block-end: 0.5rem;; margin-block-start: 1rem;">
+    کلوژر در ری‌اکت
+  </h2>
+  <time datetime="Sat Feb 18 2023 00:00:00 GMT+0330 (Iran Standard Time)">11 روز پیش</time>
+</div>
+          <p>چی console.log میشه؟</p>
+<figure class="code-snippet lang-jsx">
+  <figcaption class="header" dir="ltr">
+    
+  </figcaption>
+  <pre class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color:#FF7B72">function</span><span style="color:#C9D1D9"> </span><span style="color:#D2A8FF">ComponentOne</span><span style="color:#C9D1D9">() {</span></span>
+<span class="line"><span style="color:#C9D1D9"> </span><span style="color:#FF7B72">const</span><span style="color:#C9D1D9"> [</span><span style="color:#79C0FF">count</span><span style="color:#C9D1D9">, </span><span style="color:#79C0FF">setCount</span><span style="color:#C9D1D9">] </span><span style="color:#FF7B72">=</span><span style="color:#C9D1D9"> </span><span style="color:#D2A8FF">useState</span><span style="color:#C9D1D9">(</span><span style="color:#79C0FF">0</span><span style="color:#C9D1D9">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#C9D1D9"> </span><span style="color:#FF7B72">const</span><span style="color:#C9D1D9"> </span><span style="color:#D2A8FF">handleClick</span><span style="color:#C9D1D9"> </span><span style="color:#FF7B72">=</span><span style="color:#C9D1D9"> () </span><span style="color:#FF7B72">=&gt;</span><span style="color:#C9D1D9"> {</span></span>
+<span class="line"><span style="color:#C9D1D9">   </span><span style="color:#D2A8FF">setCount</span><span style="color:#C9D1D9">(count </span><span style="color:#FF7B72">+</span><span style="color:#C9D1D9"> </span><span style="color:#79C0FF">1</span><span style="color:#C9D1D9">)</span></span>
+<span class="line"><span style="color:#C9D1D9">   console.</span><span style="color:#D2A8FF">log</span><span style="color:#C9D1D9">(count) </span><span style="color:#8B949E">// ?</span></span>
+<span class="line"><span style="color:#C9D1D9"> }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#C9D1D9"> </span><span style="color:#FF7B72">return</span><span style="color:#C9D1D9"> &lt;</span><span style="color:#7EE787">button</span><span style="color:#C9D1D9"> </span><span style="color:#79C0FF">onClick</span><span style="color:#FF7B72">={</span><span style="color:#C9D1D9">handleClick</span><span style="color:#FF7B72">}</span><span style="color:#C9D1D9">&gt;</span><span style="color:#FF7B72">{</span><span style="color:#C9D1D9">count</span><span style="color:#FF7B72">}</span><span style="color:#C9D1D9">&lt;/</span><span style="color:#7EE787">button</span><span style="color:#C9D1D9">&gt;</span></span>
+<span class="line"><span style="color:#C9D1D9">}</span></span></code></pre>
+</figure>
+<figure class="code-snippet lang-jsx">
+  <figcaption class="header" dir="ltr">
+    
+  </figcaption>
+  <pre class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color:#FF7B72">function</span><span style="color:#C9D1D9"> </span><span style="color:#D2A8FF">ComponentTwo</span><span style="color:#C9D1D9">() {</span></span>
+<span class="line"><span style="color:#C9D1D9"> </span><span style="color:#FF7B72">const</span><span style="color:#C9D1D9"> [</span><span style="color:#79C0FF">count</span><span style="color:#C9D1D9">, </span><span style="color:#79C0FF">setCount</span><span style="color:#C9D1D9">] </span><span style="color:#FF7B72">=</span><span style="color:#C9D1D9"> </span><span style="color:#D2A8FF">useState</span><span style="color:#C9D1D9">(</span><span style="color:#79C0FF">0</span><span style="color:#C9D1D9">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#C9D1D9"> </span><span style="color:#FF7B72">const</span><span style="color:#C9D1D9"> </span><span style="color:#D2A8FF">handleClick</span><span style="color:#C9D1D9"> </span><span style="color:#FF7B72">=</span><span style="color:#C9D1D9"> () </span><span style="color:#FF7B72">=&gt;</span><span style="color:#C9D1D9"> {</span></span>
+<span class="line"><span style="color:#C9D1D9">   </span><span style="color:#D2A8FF">setCount</span><span style="color:#C9D1D9">(count </span><span style="color:#FF7B72">+</span><span style="color:#C9D1D9"> </span><span style="color:#79C0FF">1</span><span style="color:#C9D1D9">)</span></span>
+<span class="line"><span style="color:#C9D1D9">   </span><span style="color:#D2A8FF">setCount</span><span style="color:#C9D1D9">(</span><span style="color:#FFA657">state</span><span style="color:#C9D1D9"> </span><span style="color:#FF7B72">=&gt;</span><span style="color:#C9D1D9"> {</span></span>
+<span class="line"><span style="color:#C9D1D9">     console.</span><span style="color:#D2A8FF">log</span><span style="color:#C9D1D9">(state) </span><span style="color:#8B949E">// ?</span></span>
+<span class="line"><span style="color:#C9D1D9">     </span><span style="color:#FF7B72">return</span><span style="color:#C9D1D9"> state</span></span>
+<span class="line"><span style="color:#C9D1D9">   })</span></span>
+<span class="line"><span style="color:#C9D1D9"> }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#C9D1D9"> </span><span style="color:#FF7B72">return</span><span style="color:#C9D1D9"> &lt;</span><span style="color:#7EE787">button</span><span style="color:#C9D1D9"> </span><span style="color:#79C0FF">onClick</span><span style="color:#FF7B72">={</span><span style="color:#C9D1D9">handleClick</span><span style="color:#FF7B72">}</span><span style="color:#C9D1D9">&gt;</span><span style="color:#FF7B72">{</span><span style="color:#C9D1D9">count</span><span style="color:#FF7B72">}</span><span style="color:#C9D1D9">&lt;/</span><span style="color:#7EE787">button</span><span style="color:#C9D1D9">&gt;</span></span>
+<span class="line"><span style="color:#C9D1D9">}</span></span></code></pre>
+</figure>
+<figure class="code-snippet lang-jsx">
+  <figcaption class="header" dir="ltr">
+    
+  </figcaption>
+  <pre class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color:#FF7B72">function</span><span style="color:#C9D1D9"> </span><span style="color:#D2A8FF">ComponentThree</span><span style="color:#C9D1D9">() {</span></span>
+<span class="line"><span style="color:#C9D1D9"> </span><span style="color:#FF7B72">const</span><span style="color:#C9D1D9"> [</span><span style="color:#79C0FF">count</span><span style="color:#C9D1D9">, </span><span style="color:#79C0FF">setCount</span><span style="color:#C9D1D9">] </span><span style="color:#FF7B72">=</span><span style="color:#C9D1D9"> </span><span style="color:#D2A8FF">useState</span><span style="color:#C9D1D9">({ value: </span><span style="color:#79C0FF">0</span><span style="color:#C9D1D9"> })</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#C9D1D9"> </span><span style="color:#FF7B72">const</span><span style="color:#C9D1D9"> </span><span style="color:#D2A8FF">handleClick</span><span style="color:#C9D1D9"> </span><span style="color:#FF7B72">=</span><span style="color:#C9D1D9"> () </span><span style="color:#FF7B72">=&gt;</span><span style="color:#C9D1D9"> {</span></span>
+<span class="line"><span style="color:#C9D1D9">   </span><span style="color:#D2A8FF">setCount</span><span style="color:#C9D1D9">((</span><span style="color:#FFA657">state</span><span style="color:#C9D1D9">) </span><span style="color:#FF7B72">=&gt;</span><span style="color:#C9D1D9"> {</span></span>
+<span class="line"><span style="color:#C9D1D9">     </span><span style="color:#FF7B72">++</span><span style="color:#C9D1D9">state.value</span></span>
+<span class="line"><span style="color:#C9D1D9">     </span><span style="color:#FF7B72">return</span><span style="color:#C9D1D9"> state</span></span>
+<span class="line"><span style="color:#C9D1D9">   })</span></span>
+<span class="line"><span style="color:#C9D1D9">   console.</span><span style="color:#D2A8FF">log</span><span style="color:#C9D1D9">(count.value) </span><span style="color:#8B949E">// ?</span></span>
+<span class="line"><span style="color:#C9D1D9"> }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#C9D1D9"> </span><span style="color:#FF7B72">return</span><span style="color:#C9D1D9"> &lt;</span><span style="color:#7EE787">button</span><span style="color:#C9D1D9"> </span><span style="color:#79C0FF">onClick</span><span style="color:#FF7B72">={</span><span style="color:#C9D1D9">handleClick</span><span style="color:#FF7B72">}</span><span style="color:#C9D1D9">&gt;</span><span style="color:#FF7B72">{</span><span style="color:#C9D1D9">count</span><span style="color:#FF7B72">}</span><span style="color:#C9D1D9">&lt;/</span><span style="color:#7EE787">button</span><span style="color:#C9D1D9">&gt;</span></span>
+<span class="line"><span style="color:#C9D1D9">}</span></span></code></pre>
+</figure><p>به نظرتون چی لاگ میشه؟
+.
+.
+.</p><ul>
+<li>ComponentOne: 0</li>
+<li>ComponentTwo: 1</li>
+<li>ComponentThree: 1</li>
+</ul><p>در واقع چیزی که لاگ میشه همیشه یه قدم از مقدار واقعی استیت (چیزی که تو ui میبینیم) عقبه و مقدار قدیمی هست که لاگ میشه.</p><p>کامپوننت اول رو در نظر بگیرید، وقتی count رو با const تعریف کردیم چطور اصلا ممکنه مقدارش تغییر کنه :)</p><p>البته اگه با let هم تعریف می‌شد فرقی نمی‌کرد!</p><p>در واقع setCount-ای که useState به ما میده  استیت رو تغییر میده اما استیتی که تغییر میده خارج از این فانکشن کامپوننت زندگی می‌کنه و count فقط یه کپی از اون استیت هست.</p><p>کاری که تو کامپوننت دوم انجام دادیم درواقع همین قضیه رو نشون میده و با پاس دادن تابع به setCount  تونستیم مقدار واقعی استیت رو دریافت و لاگ کنیم.</p><p>هر بار که کامپوننت در اثر تغییر استیت مجددا رندر میشه count از نو تعریف و مقداردهی میشه.</p><p>هر بار هم که تابع handleClick ساخته میشه باعث میشه چیزی به اسم کلوژر به وجود بیاد.</p><p>کلوژر چیه؟ زمانی که داخل یک تابع یک تابع دیگه تعریف می‌کنیم کلوژر به وجود میاد و در واقع به ترکیب تابع داخلی (مثل handleClick) و متغییرهایی که اون تابع در زمان ساخته شدن بهشون دسترسی داره (مثل count) گفته میشه.</p><p>هر بار که handleClick ساخته بشه یه کلوژر جدید هم ساخته میشه.</p><p>در واقع تو همه کامپوننت‌های بالا هر بار که کامپوننت رندر بشه handleClick هم مجددا ساخته میشه و یه کلوژر جدید ایجاد میشه!</p><p>بنابراین تا زمانی که کامپوننت مجددا رندر نشه handleClick به مقدار جدید استیت دسترسی نداره!</p><p>همین داستان رو میشه خیلی ساده با جاوااسکریپت نشون داد:</p>
+<figure class="code-snippet lang-js">
+  <figcaption class="header" dir="ltr">
+    
+  </figcaption>
+  <pre class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color:#FF7B72">let</span><span style="color:#C9D1D9"> outerState </span><span style="color:#FF7B72">=</span><span style="color:#C9D1D9"> </span><span style="color:#79C0FF">0</span><span style="color:#C9D1D9">;</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF7B72">function</span><span style="color:#C9D1D9"> </span><span style="color:#D2A8FF">init</span><span style="color:#C9D1D9">() {</span></span>
+<span class="line"><span style="color:#C9D1D9">  </span><span style="color:#FF7B72">let</span><span style="color:#C9D1D9"> innerState </span><span style="color:#FF7B72">=</span><span style="color:#C9D1D9"> outerState;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#C9D1D9">  </span><span style="color:#FF7B72">function</span><span style="color:#C9D1D9"> </span><span style="color:#D2A8FF">log</span><span style="color:#C9D1D9">() {</span></span>
+<span class="line"><span style="color:#C9D1D9">    </span><span style="color:#FF7B72">++</span><span style="color:#C9D1D9">outerState;</span></span>
+<span class="line"><span style="color:#C9D1D9">    console.</span><span style="color:#D2A8FF">log</span><span style="color:#C9D1D9">(innerState); </span><span style="color:#8B949E">// 0</span></span>
+<span class="line"><span style="color:#C9D1D9">  }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#C9D1D9">  </span><span style="color:#D2A8FF">log</span><span style="color:#C9D1D9">();</span></span>
+<span class="line"><span style="color:#C9D1D9">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D2A8FF">init</span><span style="color:#C9D1D9">();</span></span></code></pre>
+</figure><p>تغییر دادن outerState به تنهایی باعث نمیشه مقدار جدید لاگ بشه مگه اینکه مجددا init رو صدا بزنیم.</p><p>تو کامپوننت سوم چه اتفاقی افتاده؟ دقیقا مثل کامپوننت‌های یک و دو با این تفاوت که تو کلوژری که ایجاد میشه مقدار count به reference آبجکتی که داخل استیت قرار دادیم اشاره می‌کنه و تغییراتی که روی اون آبجکت اتفاق می‌افته رو می‌تونیم ببینیم.</p><p>اما اینجا هم اگه به طور کلی مقدار رو با یک آبجکت جدید جایگزین کنیم همون مشکل قبلی رو خواهیم داشت:</p>
+<figure class="code-snippet lang-jsx">
+  <figcaption class="header" dir="ltr">
+    
+  </figcaption>
+  <pre class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color:#FF7B72">function</span><span style="color:#C9D1D9"> </span><span style="color:#D2A8FF">ComponentThree</span><span style="color:#C9D1D9">() {</span></span>
+<span class="line"><span style="color:#C9D1D9"> </span><span style="color:#FF7B72">const</span><span style="color:#C9D1D9"> [</span><span style="color:#79C0FF">count</span><span style="color:#C9D1D9">, </span><span style="color:#79C0FF">setCount</span><span style="color:#C9D1D9">] </span><span style="color:#FF7B72">=</span><span style="color:#C9D1D9"> </span><span style="color:#D2A8FF">useState</span><span style="color:#C9D1D9">({ value: </span><span style="color:#79C0FF">0</span><span style="color:#C9D1D9"> })</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"><span style="color:#C9D1D9"> </span><span style="color:#FF7B72">const</span><span style="color:#C9D1D9"> </span><span style="color:#D2A8FF">handleClick</span><span style="color:#C9D1D9"> </span><span style="color:#FF7B72">=</span><span style="color:#C9D1D9"> () </span><span style="color:#FF7B72">=&gt;</span><span style="color:#C9D1D9"> {</span></span>
+<span class="line"><span style="color:#C9D1D9">   </span><span style="color:#D2A8FF">setCount</span><span style="color:#C9D1D9">((</span><span style="color:#FFA657">state</span><span style="color:#C9D1D9">) </span><span style="color:#FF7B72">=&gt;</span><span style="color:#C9D1D9"> {</span></span>
+<span class="line"><span style="color:#C9D1D9">     </span><span style="color:#FF7B72">return</span><span style="color:#C9D1D9"> {value: state.value </span><span style="color:#FF7B72">+</span><span style="color:#C9D1D9"> </span><span style="color:#79C0FF">1</span><span style="color:#C9D1D9">}</span></span>
+<span class="line"><span style="color:#C9D1D9">   })</span></span>
+<span class="line"><span style="color:#C9D1D9">   console.</span><span style="color:#D2A8FF">log</span><span style="color:#C9D1D9">(count.value) </span><span style="color:#8B949E">// 0</span></span>
+<span class="line"><span style="color:#C9D1D9"> }</span></span></code></pre>
+</figure><p>راه حل؟ می‌تونیم از هوک useEffect استفاده کنیم و هر زمان که count تغییر کرد مقدارش رو log کنیم:</p>
+<figure class="code-snippet lang-jsx">
+  <figcaption class="header" dir="ltr">
+    
+  </figcaption>
+  <pre class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color:#FF7B72">function</span><span style="color:#C9D1D9"> </span><span style="color:#D2A8FF">ComponentOne</span><span style="color:#C9D1D9">() {</span></span>
+<span class="line"><span style="color:#C9D1D9"> </span><span style="color:#FF7B72">const</span><span style="color:#C9D1D9"> [</span><span style="color:#79C0FF">count</span><span style="color:#C9D1D9">, </span><span style="color:#79C0FF">setCount</span><span style="color:#C9D1D9">] </span><span style="color:#FF7B72">=</span><span style="color:#C9D1D9"> </span><span style="color:#D2A8FF">useState</span><span style="color:#C9D1D9">(</span><span style="color:#79C0FF">0</span><span style="color:#C9D1D9">)</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"><span style="color:#C9D1D9"> </span><span style="color:#FF7B72">const</span><span style="color:#C9D1D9"> </span><span style="color:#D2A8FF">handleClick</span><span style="color:#C9D1D9"> </span><span style="color:#FF7B72">=</span><span style="color:#C9D1D9"> () </span><span style="color:#FF7B72">=&gt;</span><span style="color:#C9D1D9"> {</span></span>
+<span class="line"><span style="color:#C9D1D9">   </span><span style="color:#D2A8FF">setCount</span><span style="color:#C9D1D9">(count </span><span style="color:#FF7B72">+</span><span style="color:#C9D1D9"> </span><span style="color:#79C0FF">1</span><span style="color:#C9D1D9">)</span></span>
+<span class="line"><span style="color:#C9D1D9"> }</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D2A8FF">useEffect</span><span style="color:#C9D1D9">(() </span><span style="color:#FF7B72">=&gt;</span><span style="color:#C9D1D9"> {</span></span>
+<span class="line"><span style="color:#C9D1D9">  console.</span><span style="color:#D2A8FF">log</span><span style="color:#C9D1D9">(count)</span></span>
+<span class="line"><span style="color:#C9D1D9">}, [count])</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"><span style="color:#C9D1D9"> </span><span style="color:#FF7B72">return</span><span style="color:#C9D1D9"> &lt;</span><span style="color:#7EE787">button</span><span style="color:#C9D1D9"> </span><span style="color:#79C0FF">onClick</span><span style="color:#FF7B72">={</span><span style="color:#C9D1D9">handleClick</span><span style="color:#FF7B72">}</span><span style="color:#C9D1D9">&gt;</span><span style="color:#FF7B72">{</span><span style="color:#C9D1D9">count</span><span style="color:#FF7B72">}</span><span style="color:#C9D1D9">&lt;/</span><span style="color:#7EE787">button</span><span style="color:#C9D1D9">&gt;</span></span>
+<span class="line"><span style="color:#C9D1D9">}</span></span></code></pre>
+</figure><p>شاید نیاز باشه داخل useEffect یه تابعی رو اجرا کنیم برای اینکار ممکنه تابع رو memoize کنیم:</p>
+<figure class="code-snippet lang-jsx">
+  <figcaption class="header" dir="ltr">
+    
+  </figcaption>
+  <pre class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color:#FF7B72">function</span><span style="color:#C9D1D9"> </span><span style="color:#D2A8FF">ComponentOne</span><span style="color:#C9D1D9">() {</span></span>
+<span class="line"><span style="color:#C9D1D9"> </span><span style="color:#FF7B72">const</span><span style="color:#C9D1D9"> [</span><span style="color:#79C0FF">count</span><span style="color:#C9D1D9">, </span><span style="color:#79C0FF">setCount</span><span style="color:#C9D1D9">] </span><span style="color:#FF7B72">=</span><span style="color:#C9D1D9"> </span><span style="color:#D2A8FF">useState</span><span style="color:#C9D1D9">(</span><span style="color:#79C0FF">0</span><span style="color:#C9D1D9">)</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"><span style="color:#C9D1D9"> </span><span style="color:#FF7B72">const</span><span style="color:#C9D1D9"> </span><span style="color:#79C0FF">logger</span><span style="color:#C9D1D9"> </span><span style="color:#FF7B72">=</span><span style="color:#C9D1D9"> </span><span style="color:#D2A8FF">useCallback</span><span style="color:#C9D1D9">(() </span><span style="color:#FF7B72">=&gt;</span><span style="color:#C9D1D9"> {</span></span>
+<span class="line"><span style="color:#C9D1D9">    console.</span><span style="color:#D2A8FF">log</span><span style="color:#C9D1D9">(count)</span></span>
+<span class="line"><span style="color:#C9D1D9">  }, [count])</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#C9D1D9">  </span><span style="color:#D2A8FF">useEffect</span><span style="color:#C9D1D9">(() </span><span style="color:#FF7B72">=&gt;</span><span style="color:#C9D1D9"> {</span></span>
+<span class="line"><span style="color:#C9D1D9">    </span><span style="color:#D2A8FF">logger</span><span style="color:#C9D1D9">()</span></span>
+<span class="line"><span style="color:#C9D1D9">  }, [count, logger])</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"><span style="color:#C9D1D9"> </span><span style="color:#FF7B72">return</span><span style="color:#C9D1D9"> &lt;</span><span style="color:#7EE787">button</span><span style="color:#C9D1D9"> </span><span style="color:#79C0FF">onClick</span><span style="color:#FF7B72">={</span><span style="color:#C9D1D9">handleClick</span><span style="color:#FF7B72">}</span><span style="color:#C9D1D9">&gt;</span><span style="color:#FF7B72">{</span><span style="color:#C9D1D9">count</span><span style="color:#FF7B72">}</span><span style="color:#C9D1D9">&lt;/</span><span style="color:#7EE787">button</span><span style="color:#C9D1D9">&gt;</span></span>
+<span class="line"><span style="color:#C9D1D9">}</span></span></code></pre>
+</figure><p>به لیست وابستگی‌های useCallback دقت کنید اگه count داخل این لیست نباشه چه اتفاقی می‌افته به نظرتون:</p>
+<figure class="code-snippet lang-jsx">
+  <figcaption class="header" dir="ltr">
+    
+  </figcaption>
+  <pre class="astro-code" style="background-color: #0d1117; overflow-x: auto;"><code><span class="line"><span style="color:#FF7B72">function</span><span style="color:#C9D1D9"> </span><span style="color:#D2A8FF">ComponentOne</span><span style="color:#C9D1D9">() {</span></span>
+<span class="line"><span style="color:#C9D1D9"> </span><span style="color:#FF7B72">const</span><span style="color:#C9D1D9"> [</span><span style="color:#79C0FF">count</span><span style="color:#C9D1D9">, </span><span style="color:#79C0FF">setCount</span><span style="color:#C9D1D9">] </span><span style="color:#FF7B72">=</span><span style="color:#C9D1D9"> </span><span style="color:#D2A8FF">useState</span><span style="color:#C9D1D9">(</span><span style="color:#79C0FF">0</span><span style="color:#C9D1D9">)</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"><span style="color:#C9D1D9"> </span><span style="color:#FF7B72">const</span><span style="color:#C9D1D9"> </span><span style="color:#79C0FF">logger</span><span style="color:#C9D1D9"> </span><span style="color:#FF7B72">=</span><span style="color:#C9D1D9"> </span><span style="color:#D2A8FF">useCallback</span><span style="color:#C9D1D9">(() </span><span style="color:#FF7B72">=&gt;</span><span style="color:#C9D1D9"> {</span></span>
+<span class="line"><span style="color:#C9D1D9">    console.</span><span style="color:#D2A8FF">log</span><span style="color:#C9D1D9">(count)</span></span>
+<span class="line"><span style="color:#C9D1D9">  }, [])</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#C9D1D9">  </span><span style="color:#D2A8FF">useEffect</span><span style="color:#C9D1D9">(() </span><span style="color:#FF7B72">=&gt;</span><span style="color:#C9D1D9"> {</span></span>
+<span class="line"><span style="color:#C9D1D9">    </span><span style="color:#D2A8FF">logger</span><span style="color:#C9D1D9">()</span></span>
+<span class="line"><span style="color:#C9D1D9">  }, [count, logger])</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"><span style="color:#C9D1D9"> </span><span style="color:#FF7B72">return</span><span style="color:#C9D1D9"> &lt;</span><span style="color:#7EE787">button</span><span style="color:#C9D1D9"> </span><span style="color:#79C0FF">onClick</span><span style="color:#FF7B72">={</span><span style="color:#C9D1D9">handleClick</span><span style="color:#FF7B72">}</span><span style="color:#C9D1D9">&gt;</span><span style="color:#FF7B72">{</span><span style="color:#C9D1D9">count</span><span style="color:#FF7B72">}</span><span style="color:#C9D1D9">&lt;/</span><span style="color:#7EE787">button</span><span style="color:#C9D1D9">&gt;</span></span>
+<span class="line"><span style="color:#C9D1D9">}</span></span></code></pre>
+</figure><p>مهم نیست چند بار روی دکمه کلیک کنید مقداری که لاگ میشه برای همیشه صفر باقی می‌مونه، دلیلش هم اینه که تابعی که داخل useCallback قرار دادیم فقط یکبار ساخته میشه و در نتیجه یه کلوژر به وجود میاد که داخلش مقدار count برابر با صفر هست.</p><p>مقدار count از دید این تابع یه جورایی freeze شده و عملا نمی‌تونه تغییر کنه.</p><p>دقیقا به همین دلیل هم هست که نیاز داریم count رو داخل لیست وابستگی‌ها قرار بدیم.</p><p>با اینکار هر بار که count تغییر کنه تابع داخل useEffect دوباره ساخته میشه و کلوژر جدیدی با مقادیر بروزشده براش ایجاد میشه.</p>
+        </article>
+      </main>
+      <div class="pb-8 text-[rgba(179,197,239,0.5)]">
+        <a href="/blog ">&lt;- بازگشت</a>
+      </div>
+    </div>
+  </body>
+</html>
